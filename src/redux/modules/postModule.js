@@ -6,7 +6,8 @@ export const __getPosts = createAsyncThunk(
     "getPosts",
     async (payload, thunkAPI) => {
         try {
-            const result = await axios.get('/chitchat/posts');
+            const result = await axios.get('http://localhost:4000/posts');
+            console.log(result.data);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -14,7 +15,9 @@ export const __getPosts = createAsyncThunk(
     }
 );
 
-const initialState = {};
+const initialState = {
+    posts: [],
+};
 
 export const postsSlice = createSlice({
     name: 'posts',
@@ -28,7 +31,7 @@ export const postsSlice = createSlice({
         [__getPosts.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.Posts = payload;
+            state.posts = payload;
         },
         [__getPosts.rejected]: (state, action) => {
             state.isLoading = false;
@@ -38,5 +41,4 @@ export const postsSlice = createSlice({
     }
 })
 
-export const {} = postsSlice.actions
 export default postsSlice.reducer
