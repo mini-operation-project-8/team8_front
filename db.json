@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "posts": [
     {
       "id": 1,
@@ -16,4 +17,19 @@
   "profile": {
     "name": "typicode"
   }
+=======
+    "posts" : [
+        {
+            "id" :1,
+            "title" : "반갑습니다",
+            "content" : "환영합니다"
+        }
+    ],
+    "users" : [
+        {
+            "userid" : "chitcaht",
+            "password" : "1q2w3w4r!"
+        }
+    ]
+>>>>>>> 6835d1372629dc799adada84be2b351894ac6a16
 }
