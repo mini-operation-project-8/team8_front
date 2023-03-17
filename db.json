@@ -1,23 +1,4 @@
 {
-<<<<<<< HEAD
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
-=======
     "posts" : [
         {
             "id" :1,
@@ -31,5 +12,4 @@
             "password" : "1q2w3w4r!"
         }
     ]
->>>>>>> 6835d1372629dc799adada84be2b351894ac6a16
 }
