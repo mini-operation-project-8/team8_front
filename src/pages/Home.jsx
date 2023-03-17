@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 function Home() {
+
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -14,14 +15,17 @@ function Home() {
             <Nav className="me-auto">
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">로그인</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link href="/chitchat/login">로그인</Nav.Link>
+              <Nav.Link eventKey={2} href="/chitchat/signup">
                 회원가입
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div>
+        
+      </div>
     </div>
   )
 }
