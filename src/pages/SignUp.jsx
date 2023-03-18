@@ -30,7 +30,6 @@ function SignUp() {
     // api.post("/register", user);
     // api.post("/chitchat/signup", user);
     navigate ("/chitchat/login")
-
   };
 
   // 로그인하고 나서는 signup page 못 가게 설정
