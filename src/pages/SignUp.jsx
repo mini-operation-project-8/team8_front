@@ -11,8 +11,6 @@ function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] =useState({
-    // id : "",
-    // password : "",
     userId : "",
     password : "",
   });
@@ -41,8 +39,6 @@ function SignUp() {
     }
 
     dispatch(__signupUser(user));
-    // api.post("/register", user);
-    // api.post("/chitchat/signup", user);
     navigate ("/chitchat/login")
   };
 
@@ -73,13 +69,6 @@ function SignUp() {
       >Sign</Form.Label>
       <Form.Group className="mb-3" controlId="formBasicEmail">
        <Form.Label>Id</Form.Label>
-          {/* Test */}
-          {/* <Form.Control 
-          type="text" name="userId"
-          placeholder="Enter ID" 
-          maxLength={10}
-          value={user.id} onChange={changeInputHandler}/> */}
-          {/* 협업 */}
            <Form.Control 
           type="text" name="userId"
           placeholder="Enter ID" 
