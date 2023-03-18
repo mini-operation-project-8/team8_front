@@ -27,14 +27,14 @@ function HeaderNav() {
                 <Nav className="me-auto">
                 </Nav>
                 <Nav>
-                    {token == null ? 
+                    {/* {token == null ? 
                         <Nav.Link href="/chitchat/login" onClick={()=>{navi("/chitchat/login")}}>로그인</Nav.Link>
                     :
                         <Nav.Link onClick={() => {
                             cookies.remove("token");
                             navi("/chitchat/login")
                         }}>로그아웃</Nav.Link>
-                    }
+                    } */}
                 <Nav.Link eventKey={2} href="/chitchat/signup" onClick={()=>{navi("/chitchat/signup")}}>
                     회원가입
                 </Nav.Link>
