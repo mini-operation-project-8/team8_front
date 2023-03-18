@@ -1,8 +1,10 @@
-// import axios from 'axios';
+import axios from 'axios';
 
-// const api = axios.create({
-//     baseURL: process.env.REACT_APP_SERVER_URL
-// })
+export const api = axios.create({
+    baseURL: "http://3.38.191.164/",
+    heaher : {},
+    // process.env.REACT_APP_SERVER_URL
+});
 // console.log(api)
 
 // api.interceptors.request.use(
