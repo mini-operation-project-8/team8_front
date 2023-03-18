@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { api } from "../axios/api";
 import { cookies } from "../shared/cookie";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [user, setUser] =useState({
-    id : "",
+    userId : "",
     password : "",
-    // userId : "",
-    // password : "",
   });
 
   const changeInputHandler = (e)=> {
@@ -24,26 +24,26 @@ function Login() {
 
   const submitLoginBtnHadler = async(e) => {
     e.preventDefault();
-    api.post("/login", user).then((result) => {
-    console.log(result.data.token)
+    api.post("/chitchat/login", user).then((result) => {
     });
-    try { 
-      const result = await api.post("/login", user)
-      // console.log(result.data.token);
-      cookies.set("token", result.data.token, {path : "/"});
-      navigate ("/")
-    } catch (e) {
-      alert("아이디와 비밀번호를 확인하세요")
-    }
-
+    //test
     // try { 
-    //   const result = await api.post("/chitchat/login", user)
+    //   const result = await api.post("/login", user)
     //   // console.log(result.data.token);
     //   cookies.set("token", result.data.token, {path : "/"});
     //   navigate ("/")
     // } catch (e) {
     //   alert("아이디와 비밀번호를 확인하세요")
     // }
+    //협업
+    try { 
+      const result = await api.post("/chitchat/login", user)
+      // console.log(result.data.token);
+      cookies.set("token", result.data.token, {path : "/"});
+      navigate ("/")
+    } catch (e) {
+      alert("아이디와 비밀번호를 확인하세요")
+    }
   };
 
   // 로그인하고 나서는 login page 못 가게 설정
@@ -77,22 +77,26 @@ function Login() {
           Login
         </Form.Label>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Id</Form.Label>
-          {/* <Form.Control 
-          type="text" name="userId"
-          placeholder="Enter ID" 
-          value={user.userId} onChange={changeInputHandler}/> */}
-          <Form.Control 
-          type="text" name="id"
-          placeholder="Enter ID" 
-          value={user.id} onChange={changeInputHandler}/>
-          <Form.Text className="text-muted" />
+        <Form.Label>Id</Form.Label>
+            {/* Test */}
+            {/* <Form.Control 
+            type="text" name="userId"
+            placeholder="Enter ID" 
+            maxLength={10}
+            value={user.id} onChange={changeInputHandler}/> */}
+            {/* 협업 */}
+            <Form.Control 
+            type="text" name="userId"
+            placeholder="Enter ID" 
+            maxLength={10}
+            value={user.userId} onChange={changeInputHandler}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control 
           type="password" name="password"
-          placeholder="Password" 
+          placeholder="Password"
+          maxLength={15}
           value={user.password} onChange={changeInputHandler}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox"></Form.Group>

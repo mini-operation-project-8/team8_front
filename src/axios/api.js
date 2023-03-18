@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: "http://3.38.191.164/",
+    baseURL: process.env.REACT_APP_SERVER_URL,
     heaher : {},
-    // process.env.REACT_APP_SERVER_URL
 });
 // console.log(api)
 
