@@ -1,8 +1,13 @@
 import React from 'react'
+import Container from 'react-bootstrap/Container';
+import CKEditor from '../components/CKEditor';
+
 
 function Post() {
   return (
-    <div>Post</div>
+    <Container>
+      <CKEditor />
+    </Container>
   )
 }
 
