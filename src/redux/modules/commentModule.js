@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // import api from "../../axios/api";
 
-export const __getPosts = createAsyncThunk(
-    "getPosts",
+export const __getComments = createAsyncThunk(
+    "getComments",
     async (payload, thunkAPI) => {
         try {
-            const result = await axios.get('http://localhost:4000/posts');
+            const result = await axios.get('http://localhost:4000/comments');
             console.log(result);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
@@ -15,8 +15,8 @@ export const __getPosts = createAsyncThunk(
     }
 );
 
-export const __sendPost = createAsyncThunk(
-    "sendPost",
+export const __sendComment = createAsyncThunk(
+    "sendComment",
     async (payload, thunkAPI) => {
         try {
             console.log(payload);
@@ -29,39 +29,39 @@ export const __sendPost = createAsyncThunk(
 );
 
 const initialState = {
-    posts: [],
+    comments: [],
 };
 
-export const postsSlice = createSlice({
-    name: 'posts',
+export const commentsSlice = createSlice({
+    name: 'comments',
     initialState,
     reducers: {},
     extraReducers: {
-        [__getPosts.pending]: (state) => {
+        [__getComments.pending]: (state) => {
             state.isLoading = true;
             state.isError = false;
         },
-        [__getPosts.fulfilled]: (state, {payload}) => {
+        [__getComments.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.posts = payload;
+            state.comments = payload;
         },
-        [__getPosts.rejected]: (state, action) => {
+        [__getComments.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.error = action.payload;
         },
 
-        [__sendPost.pending]: (state) => {
+        [__sendComment.pending]: (state) => {
             state.isLoading = true;
             state.isError = false;
         },
-        [__sendPost.fulfilled]: (state, {payload}) => {
+        [__sendComment.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.posts = [...state.post, payload];
+            state.comments = [...state.comments, payload];
         },
-        [__sendPost.rejected]: (state, action) => {
+        [__sendComment.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.error = action.payload;
@@ -69,4 +69,4 @@ export const postsSlice = createSlice({
     }
 })
 
-export default postsSlice.reducer
+export default commentsSlice.reducer
