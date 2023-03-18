@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { api } from "../axios/api";
 import { __signupUser } from "../redux/modules/userModule";
 import { cookies } from "../shared/cookie";
 
@@ -27,9 +26,10 @@ function SignUp() {
 
   const submitBtnHadler =(e) => {
     e.preventDefault();
-    // dispatch(__signupUser(user));
+    dispatch(__signupUser(user));
     // api.post("/register", user);
-    api.post("/chitchat/signup", user);
+    // api.post("/chitchat/signup", user);
+    navigate ("/chitchat/login")
 
   };
 

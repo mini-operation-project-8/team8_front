@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { api } from "../axios/api";
 import { cookies } from "../shared/cookie";
 
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [user, setUser] =useState({
     userId : "",
     password : "",

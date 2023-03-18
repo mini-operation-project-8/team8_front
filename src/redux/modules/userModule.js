@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { api } from "../../axios/api";
 
 export const __signupUser = createAsyncThunk(
     "signupUsers",
     async (payload, thunkAPI) => {
         try {
-            await axios.post(`${process.env.REACT_APP_SERVER_URL}/register`, payload);
-            // await axios.post(`${process.env.REACT_APP_SERVER_URL}/chitchat/signup`, payload);
+            await api.post("/chitchat/signup", payload);
             return thunkAPI.fulfillWithValue(payload);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -18,8 +18,7 @@ export const __loginUser = createAsyncThunk(
     "loginUser",
     async (payload, thunkAPI) => {
         try {
-            await axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, payload);
-            // const result = await axios.post(`${process.env.REACT_APP_SERVER_URL}/chitchat/login`, payload);
+            await axios.post(`${process.env.REACT_APP_SERVER_URL}/chitchat/login`, payload);
             return thunkAPI.fulfillWithValue(payload);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
