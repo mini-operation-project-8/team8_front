@@ -11,8 +11,6 @@ function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] =useState({
-    // id : "",
-    // password : "",
     userId : "",
     password : "",
   });
@@ -26,9 +24,21 @@ function SignUp() {
 
   const submitBtnHadler =(e) => {
     e.preventDefault();
+    const { userId, password } = user;
+    const userIdRegex = /^[a-z0-9]{4,10}$/;
+    const passwordRegex = /^.{8,15}$/;
+
+    if (!userIdRegex.test(userId)) {
+      alert('아이디확인해줘!');
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      alert('');
+      return;
+    }
+
     dispatch(__signupUser(user));
-    // api.post("/register", user);
-    // api.post("/chitchat/signup", user);
     navigate ("/chitchat/login")
   };
 
@@ -42,10 +52,15 @@ function SignUp() {
 
   return (
     <Container
-    style={{ display: "flex",flexDirection: "row",
-      justifyContent: "center",alignItems: "center",
-      marginTop: "350px"}}
-    >
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: "150px",
+    }}
+  >
+    <img src="/chitchatlogo.png"/>
     <Form style={{ width: "300px" }}>
       <Form.Label
         style={{fontSize: "30px",fontWeight: "bold",
@@ -54,13 +69,6 @@ function SignUp() {
       >Sign</Form.Label>
       <Form.Group className="mb-3" controlId="formBasicEmail">
        <Form.Label>Id</Form.Label>
-          {/* Test */}
-          {/* <Form.Control 
-          type="text" name="userId"
-          placeholder="Enter ID" 
-          maxLength={10}
-          value={user.id} onChange={changeInputHandler}/> */}
-          {/* 협업 */}
            <Form.Control 
           type="text" name="userId"
           placeholder="Enter ID" 
@@ -88,7 +96,7 @@ function SignUp() {
           <Button variant="outline-dark" type="submit"
             style={{ width: "140px", marginRight : "15px"}}
             onClick={()=> {
-              navigate('/chitchat/login');
+              navigate('/');
             }}
           >Cancle</Button>
           <Button variant="outline-dark" type="button"

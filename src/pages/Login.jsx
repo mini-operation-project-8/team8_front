@@ -9,8 +9,6 @@ import { cookies } from "../shared/cookie";
 function Login() {
   const navigate = useNavigate();
   const [user, setUser] =useState({
-    // id :"",
-    // password : "",
     userId : "",
     password : "",
   });
@@ -24,11 +22,13 @@ function Login() {
 
   const submitLoginBtnHadler = async(e) => {
     e.preventDefault();
-    // api.post("/chitchat/login", user).then((result) => {
-    // });
+    
+    api.post("/chitchat/login", user).then((result) => {
+    });
     try { 
       const result = await api.post("/chitchat/login", user)
-      console.log("result", result);
+      console.log(result.headers.authorization);
+      // document.cookie = "token=" + result.headers.authorization + "; path=/";
       cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
     } catch (e) {
@@ -37,23 +37,24 @@ function Login() {
   };
 
   // 로그인하고 나서는 login page 못 가게 설정
-  // useEffect(() => {
-  //   const token = cookies.get("token");
-  //   if(token) {
-  //     navigate ("/")
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = cookies.get("token");
+    if(token) {
+      navigate ("/")
+    }
+  }, []);
   
   return (
     <Container
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "350px",
+        marginTop: "150px",
       }}
     >
+      <img src="/chitchatlogo.png"/>
       <Form style={{ width: "300px" }}>
         <Form.Label
           style={{
@@ -68,13 +69,6 @@ function Login() {
         </Form.Label>
         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Id</Form.Label>
-            {/* Test */}
-            {/* <Form.Control 
-            type="text" name="id"
-            placeholder="Enter ID" 
-            maxLength={10}
-            value={user.id} onChange={changeInputHandler}/> */}
-            {/* 협업 */}
             <Form.Control 
             type="text" name="userId"
             placeholder="Enter ID" 
