@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { cookies } from "../shared/cookie";
 
@@ -8,13 +8,12 @@ import Navbar from 'react-bootstrap/Navbar';
 
 
 function HeaderNav() {
+  const [tokenState, setTokenState] = useState(false);
   const navi = useNavigate();
 
   useEffect(() => {
     const token = cookies.get("token");
-    if(token) {
-      navi("/")
-    }
+    token && setTokenState(true);
   }, []);
 
   return (
@@ -27,14 +26,14 @@ function HeaderNav() {
                 <Nav className="me-auto">
                 </Nav>
                 <Nav>
-                    {/* {token == null ? 
+                    {!tokenState ? 
                         <Nav.Link href="/chitchat/login" onClick={()=>{navi("/chitchat/login")}}>로그인</Nav.Link>
                     :
                         <Nav.Link onClick={() => {
                             cookies.remove("token");
                             navi("/chitchat/login")
                         }}>로그아웃</Nav.Link>
-                    } */}
+                    }
                 <Nav.Link eventKey={2} href="/chitchat/signup" onClick={()=>{navi("/chitchat/signup")}}>
                     회원가입
                 </Nav.Link>

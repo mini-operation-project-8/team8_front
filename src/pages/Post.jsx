@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import HeaderNav from '../components/HeaderNav';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+
+import { cookies } from "../shared/cookie";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -12,6 +14,14 @@ import { __sendPost } from '../redux/modules/postModule';
 function Post() {
   const navi = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = cookies.get("token");
+    if(!token) {
+      alert("로그인 후에 작성 가능합니다!");
+      navi("/")
+    }
+  }, []);
 
   const [post, setPost] = useState({
     title: "",
@@ -30,7 +40,8 @@ function Post() {
   const submitButtonHandler = (event) => {
     event.preventDefault();
     dispatch(__sendPost(post));
-    setPost("");
+    alert("게시글 작성 완료!");
+    navi("/");
   }
 
   return (
