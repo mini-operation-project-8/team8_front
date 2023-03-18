@@ -24,11 +24,11 @@ function Login() {
 
   const submitLoginBtnHadler = async(e) => {
     e.preventDefault();
-    api.post("/chitchat/login", user).then((result) => {
-    });
+    // api.post("/chitchat/login", user).then((result) => {
+    // });
     try { 
       const result = await api.post("/chitchat/login", user)
-      console.log(result.headers.authorization);
+      console.log("result", result);
       cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
     } catch (e) {

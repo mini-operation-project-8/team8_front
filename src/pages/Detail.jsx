@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import HeaderNav from '../components/HeaderNav'
 import Button from 'react-bootstrap/Button';
 
-import { __getPosts } from '../redux/modules/postModule';
+import { __deletePost, __getPosts } from '../redux/modules/postModule';
 
 export default function Detail() {
   const navi = useNavigate();
@@ -22,6 +22,10 @@ export default function Detail() {
     // });
   }
 
+  const postDeleteHandler = () => {
+    dispatch(__deletePost(post.post_id));
+  }
+
   useEffect(()=>{
     dispatch(__getPosts());
     setFindPost(post.find((item) => {
@@ -34,18 +38,18 @@ export default function Detail() {
       <HeaderNav />
       <Container>
         <div style={{marginTop: "3rem"}}>
-          <h1>{findPost?.post_Id}</h1>
+          <p>{findPost?.post_Id}</p>
+          <p>작성자 : {findPost?.userId}</p>
           <hr />
         </div>
-        
-        <h1>{findPost?.userId}</h1>
         <p>{findPost?.title}</p>
+        <hr />
         <p>{findPost?.content}</p>
       </Container>
       <Container style={{alignItems: "end"}}>
-        <Button variant="outline-dark">이전</Button>{' '}
+        <Button variant="outline-dark" onClick={()=>{navi("/")}}>이전</Button>{' '}
         <Button variant="secondary" onClick={changeInputHandler}>수정</Button>{' '}
-        <Button variant="danger" onClick={changeInputHandler}>삭제</Button>
+        <Button variant="danger" onClick={postDeleteHandler}>삭제</Button>
       </Container>
       <hr />
       <Container>

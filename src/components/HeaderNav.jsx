@@ -18,7 +18,7 @@ function HeaderNav() {
 
   return (
     <div>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" style={{height:"10vh"}}>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
             <Navbar.Brand href="/"><h1>ChitChat</h1></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />

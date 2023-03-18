@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../axios/api";
+import { cookies } from "../../shared/cookie";
 
 export const __getPosts = createAsyncThunk(
     "getPosts",
     async (payload, thunkAPI) => {
         try {
             const result = await api.get('/chitchat/posts');
-            console.log(result);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -17,9 +17,32 @@ export const __getPosts = createAsyncThunk(
 export const __sendPost = createAsyncThunk(
     "sendPost",
     async (payload, thunkAPI) => {
+        const token = cookies.get("token");
+        console.log(token);
         try {
-            console.log(payload);
-            const result = await api.post('/chitchat/posts', payload);
+            const result = await api.post('/chitchat/posts', payload, {
+                headers: {
+                    Authorization: token,
+                },
+            });
+            return thunkAPI.fulfillWithValue(result.data);
+        } catch(error) {
+            return thunkAPI.rejectWithValue("error");
+        }
+    }
+);
+
+export const __deletePost = createAsyncThunk(
+    "deletePost",
+    async (payload, thunkAPI) => {
+        const token = cookies.get("token");
+        console.log(token);
+        try {
+            const result = await api.post('/chitchat/posts', payload, {
+                headers: {
+                    Authorization: token,
+                },
+            });
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -36,6 +59,7 @@ export const postsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
+        //__getPosts
         [__getPosts.pending]: (state) => {
             state.isLoading = true;
             state.isError = false;
@@ -45,12 +69,13 @@ export const postsSlice = createSlice({
             state.isError = false;
             state.posts = payload;
         },
-        [__getPosts.rejected]: (state, action) => {
+        [__getPosts.rejected]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = true;
-            state.error = action.payload;
+            state.error = payload;
         },
 
+        //__sendPost
         [__sendPost.pending]: (state) => {
             state.isLoading = true;
             state.isError = false;
@@ -60,11 +85,28 @@ export const postsSlice = createSlice({
             state.isError = false;
             state.posts = [...state.post, payload];
         },
-        [__sendPost.rejected]: (state, action) => {
+        [__sendPost.rejected]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = true;
-            state.error = action.payload;
+            state.error = payload;
         },
+
+        //deletePost
+        [__deletePost.pending]: (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        },
+        [__deletePost.fulfilled]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.posts = state.posts.filter((item) => item.id !== payload);
+        },
+        [__deletePost.rejected]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.error = payload;
+        },
+
     }
 })
 
