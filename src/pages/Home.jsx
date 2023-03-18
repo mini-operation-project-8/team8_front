@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { __getPosts } from '../redux/modules/postModule';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
@@ -62,12 +61,12 @@ function Home() {
       <Container style={{
         marginTop: "1rem"}}>
         {posts.slice(0).reverse().map((item) => 
-            <Rows style={{
+            <Row style={{
               marginBottom: "0.5rem"}} onClick={()=>{navi(`/chitchat/Detail/${item.id}`)}}>
               <Col style={{ paddingLeft: "1.4rem" }}>{item?.id}</Col>
               <Col>글 제목</Col>
               <Col style={{ textAlign: "end" }}>아이디</Col>
-            </Rows>
+            </Row>
           )}
       </Container>
       <hr />
@@ -98,15 +97,15 @@ function Home() {
   )
 }
 
-const Rows = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 8fr 2fr;
-  padding: 1rem 0rem 1rem 0rem;
-  &:hover {
-    background: #efefef;
-    transition: 0.1s;
-    opacity: 90%;
-  }
-`
+// const Rows = styled.div`
+//   display: grid;
+//   grid-template-columns: 2fr 8fr 2fr;
+//   padding: 1rem 0rem 1rem 0rem;
+//   &:hover {
+//     background: #efefef;
+//     transition: 0.1s;
+//     opacity: 90%;
+//   }
+// `
 
 export default Home
