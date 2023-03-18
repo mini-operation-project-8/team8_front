@@ -9,6 +9,8 @@ import { cookies } from "../shared/cookie";
 function Login() {
   const navigate = useNavigate();
   const [user, setUser] =useState({
+    // id :"",
+    // password : "",
     userId : "",
     password : "",
   });
@@ -24,20 +26,10 @@ function Login() {
     e.preventDefault();
     api.post("/chitchat/login", user).then((result) => {
     });
-    //test
-    // try { 
-    //   const result = await api.post("/login", user)
-    //   // console.log(result.data.token);
-    //   cookies.set("token", result.data.token, {path : "/"});
-    //   navigate ("/")
-    // } catch (e) {
-    //   alert("아이디와 비밀번호를 확인하세요")
-    // }
-    //협업
     try { 
       const result = await api.post("/chitchat/login", user)
-      // console.log(result.data.token);
-      cookies.set("token", result.data.token, {path : "/"});
+      console.log(result.headers.authorization);
+      cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
     } catch (e) {
       alert("아이디와 비밀번호를 확인하세요")
@@ -45,12 +37,12 @@ function Login() {
   };
 
   // 로그인하고 나서는 login page 못 가게 설정
-  useEffect(() => {
-    const token = cookies.get("token");
-    if(token) {
-      navigate ("/")
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = cookies.get("token");
+  //   if(token) {
+  //     navigate ("/")
+  //   }
+  // }, []);
   
   return (
     <Container
@@ -78,7 +70,7 @@ function Login() {
         <Form.Label>Id</Form.Label>
             {/* Test */}
             {/* <Form.Control 
-            type="text" name="userId"
+            type="text" name="id"
             placeholder="Enter ID" 
             maxLength={10}
             value={user.id} onChange={changeInputHandler}/> */}
