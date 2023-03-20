@@ -26,7 +26,7 @@ export default function Detail() {
     dispatch(__deletePost(post.post_id));
   }
 
-  {/* 서버 통신용 코드 */}
+  // 서버 통신용 코드
   // useEffect(()=>{
   //   dispatch(__getPosts());
   //   setFindPost(post.find((item) => {
@@ -34,7 +34,7 @@ export default function Detail() {
   //   }))
   // },[JSON.stringify(post)]);
 
-  {/* 로컬 통신용 코드 */}
+  // 로컬 통신용 코드
   useEffect(()=>{
     dispatch(__getPosts());
     setFindPost(post.find((item) => {

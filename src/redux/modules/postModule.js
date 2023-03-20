@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api, { api_token } from "../../axios/api";
+import api from "../../axios/api";
 import { cookies } from "../../shared/cookie";
 
 export const __getPosts = createAsyncThunk(
@@ -25,17 +25,17 @@ export const __sendPost = createAsyncThunk(
         console.log(token);
         try {
             // 서버 통신용 코드
-            const result = await api_token.post('/chitchat/posts', payload);
+            // const result = await api_token.post('/chitchat/posts', payload);
 
             // 로컬 통신용 코드
             // const result = await api.post('/posts', payload);
 
             // 기존 api코드
-            // const result = await api.post('/chitchat/posts', payload, {
-            //     headers: {
-            //         Authorization: token,
-            //     },
-            // });
+            const result = await api.post('/chitchat/posts', payload, {
+                headers: {
+                    Authorization: token,
+                },
+            });
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -50,7 +50,7 @@ export const __deletePost = createAsyncThunk(
         console.log(token);
         try {
             // 서버 통신용 코드
-            const result = await api_token.post('/chitchat/posts', payload);
+            const result = await api.post('/chitchat/posts', payload);
 
             // 로컬 통신용 코드
             // const result = await api.post('/posts', payload);

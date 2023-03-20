@@ -1,31 +1,31 @@
-import axios from "axios";
-import { getCookie } from "./cookies";
+// import axios from "axios";
+// import { getCookie } from "./cookies";
 
-const token = getCookie("token");
-
-export const api = axios.create({
-baseURL: `${process.env.REACT_APP_SERVER_URL}`,
-    headers: {
-    "Access-Control-Allow-Origin": "*",
-    },
-});
-
-export const api_token = axios.create({
-baseURL: `${process.env.REACT_APP_SERVER_URL}`,
-    headers: {
-    "Access-Control-Allow-Origin": "*",
-    Authorization: token,
-    },
-});
-
-// import axios from 'axios';
+// const token = getCookie("token");
 
 // export const api = axios.create({
-//     baseURL: process.env.REACT_APP_SERVER_URL,
-//     headers : {
-//         "Access-Control-Allow-Origin": "*",
+// baseURL: `${process.env.REACT_APP_SERVER_URL}`,
+//     headers: {
+//     "Access-Control-Allow-Origin": "*",
 //     },
 // });
+
+// export const api_token = axios.create({
+// baseURL: `${process.env.REACT_APP_SERVER_URL}`,
+//     headers: {
+//     "Access-Control-Allow-Origin": "*",
+//     Authorization: token,
+//     },
+// });
+
+import axios from 'axios';
+
+export const api = axios.create({
+    baseURL: process.env.REACT_APP_SERVER_URL,
+    headers : {
+        "Access-Control-Allow-Origin": "*",
+    },
+});
 
 // console.log(api)
 
@@ -52,4 +52,4 @@ baseURL: `${process.env.REACT_APP_SERVER_URL}`,
 //     },
 // )
 
-// export default api;
+export default api;
