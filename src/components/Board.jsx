@@ -63,11 +63,10 @@ function Board() {
             )}
         </Container>
         <hr />
-        <Container style={{
-            marginTop: "2rem",
-        }}>
+        <Container style={{ marginTop: "2rem" }}>
+          <div>
             <Pagination style={{
-            alignItems: "center"
+              alignItems: "center"
             }}>
             <Pagination.First />
             <Pagination.Prev />
@@ -85,6 +84,7 @@ function Board() {
             <Pagination.Next />
             <Pagination.Last />
             </Pagination>
+          </div>
         </Container>
     </Container>
   )

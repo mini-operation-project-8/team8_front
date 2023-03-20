@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
 import HeaderNav from '../components/HeaderNav'
 import Button from 'react-bootstrap/Button';
+import styled from 'styled-components';
 
 import { __deletePost, __getPosts } from '../redux/modules/postModule';
 
@@ -65,12 +66,17 @@ export default function Detail() {
           <span>작성자 : {findPost?.id}</span>
           <hr />
         </div>
-        <p>{findPost?.content}</p>
+        <P>{findPost?.content}</P>
       </Container>
+      {/* {findPost.map((item)=> item.id === findPost.id)
+      
+      } */}
       <Container style={{alignItems: "end"}}>
-        <Button variant="outline-dark" onClick={()=>{navi("/")}}>이전</Button>{' '}
-        <Button variant="secondary" onClick={changeInputHandler}>수정</Button>{' '}
-        <Button variant="danger" onClick={postDeleteHandler}>삭제</Button>
+        <Btn>
+          <Button variant="outline-dark" onClick={()=>{navi("/")}}>이전</Button>{' '}
+          <Button variant="secondary" onClick={changeInputHandler}>수정</Button>{' '}
+          <Button variant="danger" onClick={postDeleteHandler}>삭제</Button>
+        </Btn>
       </Container>
       <hr />
       <Container>
@@ -79,3 +85,16 @@ export default function Detail() {
     </div>
   )
 }
+
+const P = styled.p`
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  height: 30vh;
+`
+
+const Btn = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 0.5rem;
+`
