@@ -7,10 +7,10 @@ export const __getPosts = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             // 서버 통신용 코드
-            // const result = await api.get('/chitchat/posts');
+            const result = await api.get('/chitchat/posts');
 
             // 로컬 통신용 코드
-            const result = await api.get('/posts');
+            // const result = await api.get('/posts');
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -28,14 +28,14 @@ export const __sendPost = createAsyncThunk(
             // const result = await api_token.post('/chitchat/posts', payload);
 
             // 로컬 통신용 코드
-            const result = await api.post('/posts', payload);
+            // const result = await api.post('/posts', payload);
 
             // 기존 서버 통신용 api코드
-            // const result = await api.post('/chitchat/posts', payload, {
-            //     headers: {
-            //         Authorization: token,
-            //     },
-            // });
+            const result = await api.post('/chitchat/posts', payload, {
+                headers: {
+                    Authorization: token,
+                },
+            });
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -50,10 +50,10 @@ export const __deletePost = createAsyncThunk(
         console.log(token);
         try {
             // 서버 통신용 코드
-            // const result = await api.post('/chitchat/posts', payload);
+            const result = await api.post('/chitchat/posts', payload);
 
             // 로컬 통신용 코드
-            const result = await api.post('/posts', payload);
+            // const result = await api.post('/posts', payload);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");

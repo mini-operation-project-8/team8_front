@@ -28,37 +28,37 @@ export default function Detail() {
   }
 
   // 서버 통신용 코드
-  // useEffect(()=>{
-  //   dispatch(__getPosts());
-  //   setFindPost(post.find((item) => {
-  //     return item?.post_Id === parseInt(params.id);
-  //   }))
-  // },[JSON.stringify(post)]);
-
-  // 로컬 통신용 코드
   useEffect(()=>{
     dispatch(__getPosts());
     setFindPost(post.find((item) => {
-      return item?.id === parseInt(params.id);
+      return item?.post_Id === parseInt(params.id);
     }))
   },[JSON.stringify(post)]);
+
+  // 로컬 통신용 코드
+  // useEffect(()=>{
+  //   dispatch(__getPosts());
+  //   setFindPost(post.find((item) => {
+  //     return item?.id === parseInt(params.id);
+  //   }))
+  // },[JSON.stringify(post)]);
 
   return (
     <div>
       <HeaderNav />
       <Container>
         {/* 서버 통신용 코드 */}
-        {/* <div style={{marginTop: "3rem"}}>
+        <div style={{marginTop: "3rem"}}>
           <p>{findPost?.post_Id}</p>
           <p>작성자 : {findPost?.userId}</p>
           <hr />
         </div>
         <p>{findPost?.title}</p>
         <hr />
-        <p>{findPost?.content}</p> */}
+        <P>{findPost?.content}</P>
 
         {/* 로컬 통신용 코드 */}
-        <div style={{marginTop: "3rem"}}>
+        {/* <div style={{marginTop: "3rem"}}>
           <h3>{findPost?.title}</h3>
         </div>
         <div style={{marginTop: "1rem"}}>
@@ -66,7 +66,7 @@ export default function Detail() {
           <span>작성자 : {findPost?.id}</span>
           <hr />
         </div>
-        <P>{findPost?.content}</P>
+        <P>{findPost?.content}</P> */}
       </Container>
       {/* {findPost.map((item)=> item.id === findPost.id)
       
