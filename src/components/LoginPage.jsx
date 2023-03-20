@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-// import { api } from "../axios/api";
 import { __loginUser } from "../redux/modules/userModule";
 import { cookies } from "../shared/cookie";
 
