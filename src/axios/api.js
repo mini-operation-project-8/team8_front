@@ -2,7 +2,9 @@ import axios from 'axios';
 
 export const api = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
-    heaher : {},
+    heahers : {
+        "Access-Control-Allow-Origin": "*",
+    },
 });
 // console.log(api)
 
