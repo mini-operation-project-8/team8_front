@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../axios/api";
-// import { cookies } from "../shared/cookie";
+import { cookies } from "../../shared/cookie";
 
 export const __signupUser = createAsyncThunk(
     "signupUsers",
@@ -10,6 +10,19 @@ export const __signupUser = createAsyncThunk(
             return thunkAPI.fulfillWithValue(payload);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
+        }
+    }
+);
+
+export const __loginUser = createAsyncThunk(
+    "loginUser",
+    async (payload, thunkAPI) => {
+        try { 
+        const result = await api.post("/chitchat/login", payload)
+        cookies.set("token", result.headers.authorization, {path : "/"});
+        return api.thunkAPI.fulfillWithValue(payload)
+        } catch (error) {
+            return api.thunkAPI.refectWithValue(error)
         }
     }
 );
@@ -36,6 +49,14 @@ export const usersSlice = createSlice({
         [__signupUser.rejected]: (state, action) => {
             state.isLogin = false;
             state.error = action.payload;
+        },
+
+        //loginUser
+        [__loginUser.fulfilled]: (state, action) => {
+            state.isLogin = true;
+        },
+        [__loginUser.rejected]: (state, action) => {
+            state.isLogin = false;
         },
     }
 })
