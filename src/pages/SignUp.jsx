@@ -20,24 +20,21 @@ function SignUp() {
     setUser((old)=> {
       return {...old, [name] : value}
     });
-  };
+  }; 
 
   const submitBtnHadler =(e) => {
     e.preventDefault();
     const { userId, password } = user;
-    const userIdRegex = /^[a-z0-9]{4,10}$/;
-    const passwordRegex = /^.{8,15}$/;
-
+    const userIdRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,10}$/;
+    const passwordRegex = /^(?=.*[a=zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{8,15}$/;
     if (!userIdRegex.test(userId)) {
-      alert('아이디확인해줘!');
+      alert('영문 소문자, 숫자 조합으로 4-10이하로 입력해주세요');
       return;
     }
-
     if (!passwordRegex.test(password)) {
-      alert('');
+      alert('영문 대소문자, 숫자, 특수문자 조합으로 8-15자 이하로 입력해주세요');
       return;
     }
-
     dispatch(__signupUser(user));
     navigate ("/chitchat/login")
   };
@@ -71,14 +68,14 @@ function SignUp() {
        <Form.Label>Id</Form.Label>
            <Form.Control 
           type="text" name="userId"
-          placeholder="Enter ID" 
+          placeholder="4자~10자 이하 소문자, 숫자" 
           maxLength={10}
           value={user.userId} onChange={changeInputHandler}/>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" name="password"
-        maxLength={15} placeholder="Password" 
+        maxLength={15} placeholder="8자~15자 이하 대소문자, 숫자, 특수문자" 
         value={user.password} onChange={changeInputHandler}/>
       </Form.Group>
       {/* <Form.Group className="mb-3" controlId="formBasicPassword">

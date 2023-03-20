@@ -31,6 +31,7 @@ function Login() {
       // document.cookie = "token=" + result.headers.authorization + "; path=/";
       cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
+      alert("Welcome to Chit Chat")
     } catch (e) {
       alert("아이디와 비밀번호를 확인하세요")
     }
@@ -71,7 +72,7 @@ function Login() {
         <Form.Label>Id</Form.Label>
             <Form.Control 
             type="text" name="userId"
-            placeholder="Enter ID" 
+            placeholder="4자~10자 이하 소문자, 숫자" 
             maxLength={10}
             value={user.userId} onChange={changeInputHandler}/>
         </Form.Group>
@@ -79,7 +80,7 @@ function Login() {
           <Form.Label>Password</Form.Label>
           <Form.Control 
           type="password" name="password"
-          placeholder="Password"
+          placeholder="8자~15자 이하 대소문자, 숫자, 특수문자"
           maxLength={15}
           value={user.password} onChange={changeInputHandler}/>
         </Form.Group>
