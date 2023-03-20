@@ -6,7 +6,7 @@ export const __signupUser = createAsyncThunk(
     "signupUsers",
     async (payload, thunkAPI) => {
         try {
-            await api.post("/chitchat/signup", payload);
+            await api.post("/chitchat/auth/signup", payload);
             return thunkAPI.fulfillWithValue(payload);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -18,7 +18,7 @@ export const __loginUser = createAsyncThunk(
     "loginUser",
     async (payload, thunkAPI) => {
         try { 
-        const result = await api.post("/chitchat/login", payload)
+        const result = await api.post("/chitchat/auth/login", payload)
         cookies.set("token", result.headers.authorization, {path : "/"});
         return api.thunkAPI.fulfillWithValue(payload)
         } catch (error) {
