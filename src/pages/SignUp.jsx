@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { __signupUser } from "../redux/modules/userModule";
 import { cookies } from "../shared/cookie";
 
@@ -22,11 +23,11 @@ function SignUp() {
     });
   }; 
 
-  const submitBtnHadler =(e) => {
-    e.preventDefault();
+  // 회원가입 id,password,passwordCheck 유효성 test 
+  const clickEffectivenessHandeler = (e) => {
     const { userId, password } = user;
     const userIdRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,10}$/;
-    const passwordRegex = /^(?=.*[a=zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{8,15}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()+=-])(?=.*[0-9]).{8,15}$/;
     if (!userIdRegex.test(userId)) {
       alert('영문 소문자, 숫자 조합으로 4-10이하로 입력해주세요');
       return;
@@ -34,11 +35,20 @@ function SignUp() {
     if (!passwordRegex.test(password)) {
       alert('영문 대소문자, 숫자, 특수문자 조합으로 8-15자 이하로 입력해주세요');
       return;
+    } 
+    if (user.password !== user.passwordCheck) {
+      alert('password 입력이 다릅니다');
+      return;
     } else {
       alert('회원가입 완료되었습니다')
     }
     dispatch(__signupUser(user));
     navigate ("/chitchat/login")
+  };
+
+  const submitBtnHadler =(e) => {
+    e.preventDefault();
+    clickEffectivenessHandeler();
   };
 
   // 로그인하고 나서는 signup page 못 가게 설정
@@ -70,41 +80,46 @@ function SignUp() {
        <Form.Label>Id</Form.Label>
            <Form.Control 
           type="text" name="userId"
-          placeholder="4자~10자 이하 소문자, 숫자" 
+          placeholder="4자~10자 소문자/숫자" 
           maxLength={10}
           value={user.userId} onChange={changeInputHandler}/>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" name="password"
-        maxLength={15} placeholder="8자~15자 이하 대소문자, 숫자, 특수문자" 
+        maxLength={15} placeholder="8자~15자 대소문자/숫자/특수문자" 
         value={user.password} onChange={changeInputHandler}/>
       </Form.Group>
-      {/* <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password Check</Form.Label>
         <Form.Control 
-        type="password" placeholder="Password Check"
+        type="password" placeholder="8자~15자 대소문자/숫자/특수문자"
         maxLength={15}
         value={user.passwordCheck} onChange={changeInputHandler}/>
-      </Form.Group> */}
+      </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox"></Form.Group>
-      <div style={{ display: "flex", flexDirection: "row",
-          justifyContent: "center", alignItems: "center", 
-          marginTop :"15px"
-      }}>
-          <Button variant="outline-dark" type="submit"
-            style={{ width: "140px", marginRight : "15px"}}
-            onClick={()=> {
-              navigate('/');
-            }}
-          >Cancle</Button>
-          <Button variant="outline-dark" type="button"
-          style={{ width: "140px"}} onClick={submitBtnHadler}
-          >Sign</Button>
-        </div>
+      <LoginBtn>
+        <Button variant="outline-dark" type="submit"
+          style={{ width: "140px", marginRight : "15px"}}
+          onClick={()=> {
+            navigate('/');
+          }}
+        >Cancle</Button>
+        <Button variant="outline-dark" type="button"
+        style={{ width: "140px"}} onClick={submitBtnHadler}
+        >Sign</Button>
+      </LoginBtn>
     </Form>
   </Container>
   )
 }
 
-export default SignUp
+export default SignUp;
+
+const LoginBtn = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top :15px;
+`
