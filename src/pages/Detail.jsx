@@ -26,10 +26,19 @@ export default function Detail() {
     dispatch(__deletePost(post.post_id));
   }
 
+  {/* 서버 통신용 코드 */}
+  // useEffect(()=>{
+  //   dispatch(__getPosts());
+  //   setFindPost(post.find((item) => {
+  //     return item?.post_Id === parseInt(params.id);
+  //   }))
+  // },[JSON.stringify(post)]);
+
+  {/* 로컬 통신용 코드 */}
   useEffect(()=>{
     dispatch(__getPosts());
     setFindPost(post.find((item) => {
-      return item?.post_Id === parseInt(params.id);
+      return item?.id === parseInt(params.id);
     }))
   },[JSON.stringify(post)]);
 
@@ -37,13 +46,25 @@ export default function Detail() {
     <div>
       <HeaderNav />
       <Container>
-        <div style={{marginTop: "3rem"}}>
+        {/* 서버 통신용 코드 */}
+        {/* <div style={{marginTop: "3rem"}}>
           <p>{findPost?.post_Id}</p>
           <p>작성자 : {findPost?.userId}</p>
           <hr />
         </div>
         <p>{findPost?.title}</p>
         <hr />
+        <p>{findPost?.content}</p> */}
+
+        {/* 로컬 통신용 코드 */}
+        <div style={{marginTop: "3rem"}}>
+          <h3>{findPost?.title}</h3>
+        </div>
+        <div style={{marginTop: "1rem"}}>
+          <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.id}</span>
+          <span>작성자 : {findPost?.id}</span>
+          <hr />
+        </div>
         <p>{findPost?.content}</p>
       </Container>
       <Container style={{alignItems: "end"}}>

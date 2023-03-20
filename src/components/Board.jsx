@@ -44,11 +44,21 @@ function Board() {
         </Container>
         <Container style={{
             marginTop: "1rem"}}>
-            {posts.slice(0).reverse().map((item) =>
-                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/post/${item.post_Id}`)}}>
+            {/* 서버 통신용 코드 */}
+            {/* {posts.slice(0).reverse().map((item) =>
+                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.post_Id}`)}}>
                   <Col style={{ paddingLeft: "1.4rem" }}>{item?.post_Id}</Col>
                   <Col>{item?.title}</Col>
                   <Col style={{ textAlign: "end" }}>{item?.userId}</Col>
+                </Rows>
+            )} */}
+
+            {/* 로컬 통신용 코드 */}
+            {posts.slice(0).reverse().map((item) =>
+                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.id}`)}}>
+                  <Col style={{ paddingLeft: "1.4rem" }}>{item?.id}</Col>
+                  <Col>{item?.title}</Col>
+                  <Col style={{ textAlign: "end" }}>{item?.id}</Col>
                 </Rows>
             )}
         </Container>

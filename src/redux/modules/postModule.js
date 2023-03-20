@@ -1,12 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../axios/api";
+import api, { api_token } from "../../axios/api";
 import { cookies } from "../../shared/cookie";
 
 export const __getPosts = createAsyncThunk(
     "getPosts",
     async (payload, thunkAPI) => {
         try {
+            // 서버 통신용 코드
             const result = await api.get('/chitchat/posts');
+
+            // 로컬 통신용 코드
+            // const result = await api.get('/posts');
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -20,11 +24,18 @@ export const __sendPost = createAsyncThunk(
         const token = cookies.get("token");
         console.log(token);
         try {
-            const result = await api.post('/chitchat/posts', payload, {
-                headers: {
-                    Authorization: token,
-                },
-            });
+            // 서버 통신용 코드
+            const result = await api_token.post('/chitchat/posts', payload);
+
+            // 로컬 통신용 코드
+            // const result = await api.post('/posts', payload);
+
+            // 기존 api코드
+            // const result = await api.post('/chitchat/posts', payload, {
+            //     headers: {
+            //         Authorization: token,
+            //     },
+            // });
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -38,11 +49,11 @@ export const __deletePost = createAsyncThunk(
         const token = cookies.get("token");
         console.log(token);
         try {
-            const result = await api.post('/chitchat/posts', payload, {
-                headers: {
-                    Authorization: token,
-                },
-            });
+            // 서버 통신용 코드
+            const result = await api_token.post('/chitchat/posts', payload);
+
+            // 로컬 통신용 코드
+            // const result = await api.post('/posts', payload);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
