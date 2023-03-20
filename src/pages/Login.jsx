@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { api } from "../axios/api";
 import { cookies } from "../shared/cookie";
 
@@ -22,13 +23,11 @@ function Login() {
 
   const submitLoginBtnHadler = async(e) => {
     e.preventDefault();
-    
     api.post("/chitchat/login", user).then((result) => {
     });
     try { 
       const result = await api.post("/chitchat/login", user)
-      console.log(result);
-      // document.cookie = "token=" + result.headers.authorization + "; path=/";
+      // console.log(result);
       cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
       alert("Welcome to Chit Chat")
@@ -72,7 +71,7 @@ function Login() {
         <Form.Label>Id</Form.Label>
             <Form.Control 
             type="text" name="userId"
-            placeholder="4자~10자 이하 소문자, 숫자" 
+            placeholder="4자~10자 소문자/숫자" 
             maxLength={10}
             value={user.userId} onChange={changeInputHandler}/>
         </Form.Group>
@@ -80,7 +79,7 @@ function Login() {
           <Form.Label>Password</Form.Label>
           <Form.Control 
           type="password" name="password"
-          placeholder="8자~15자 이하 대소문자, 숫자, 특수문자"
+          placeholder="8자~15자 대소문자/숫자/특수문자"
           maxLength={15}
           value={user.password} onChange={changeInputHandler}/>
         </Form.Group>
@@ -90,19 +89,10 @@ function Login() {
           type="submit"
           style={{ width: "300px", marginTop: "30px"}}
           onClick={submitLoginBtnHadler}
-        >
-          Login
+        >Login
         </Button>
-        <div style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center", 
-          marginTop :"15px"
-          }}>
-          <Button
-            variant="outline-dark"
-            type="button"
+        <LoginBtn> 
+          <Button variant="outline-dark" type="button"
             style={{ width: "140px", marginRight : "15px"}}
             onClick={()=> {
               navigate('/');
@@ -110,9 +100,7 @@ function Login() {
           >
             Cancle
           </Button>
-          <Button
-          variant="outline-dark"
-          type="button"
+          <Button variant="outline-dark" type="button"
           style={{ width: "140px"}}
           onClick={()=> {
             navigate('/chitchat/signup');
@@ -120,10 +108,18 @@ function Login() {
         >
           Sign
         </Button>
-        </div>
+        </LoginBtn>
       </Form>
     </Container>
   );
 }
 
 export default Login;
+
+const LoginBtn = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top :15px;
+`
