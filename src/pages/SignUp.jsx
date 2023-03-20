@@ -34,6 +34,8 @@ function SignUp() {
     if (!passwordRegex.test(password)) {
       alert('영문 대소문자, 숫자, 특수문자 조합으로 8-15자 이하로 입력해주세요');
       return;
+    } else {
+      alert('회원가입 완료되었습니다')
     }
     dispatch(__signupUser(user));
     navigate ("/chitchat/login")
