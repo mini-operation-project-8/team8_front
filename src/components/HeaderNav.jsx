@@ -31,7 +31,7 @@ function HeaderNav() {
                     :
                         <Nav.Link onClick={() => {
                             cookies.remove("token");
-                            navi("/chitchat/login")
+                            navi("/")
                         }}>로그아웃</Nav.Link>
                     }
                 <Nav.Link eventKey={2} href="/chitchat/signup" onClick={()=>{navi("/chitchat/signup")}}>

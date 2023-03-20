@@ -8,6 +8,7 @@ export const __getPosts = createAsyncThunk(
         try {
             // 서버 통신용 코드
             const result = await api.get('/chitchat/posts');
+            console.log(result);
 
             // 로컬 통신용 코드
             // const result = await api.get('/posts');
