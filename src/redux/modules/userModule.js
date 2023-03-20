@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../axios/api";
+// import { cookies } from "../shared/cookie";
 
 export const __signupUser = createAsyncThunk(
     "signupUsers",

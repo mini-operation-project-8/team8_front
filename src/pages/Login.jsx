@@ -27,7 +27,7 @@ function Login() {
     });
     try { 
       const result = await api.post("/chitchat/login", user)
-      console.log(result.config);
+      console.log(result);
       // document.cookie = "token=" + result.headers.authorization + "; path=/";
       cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
