@@ -7,8 +7,8 @@ export const __getPosts = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             // 서버 통신용 코드
-            const result = await api.get('/chitchat/posts');
-            console.log(result);
+            const result = await api.get(`/chitchat/posts?sortBy=id&isAsc=true&size=17&page=${payload}`);
+            console.log("result", result);
 
             // 로컬 통신용 코드
             // const result = await api.get('/posts');
@@ -26,17 +26,15 @@ export const __sendPost = createAsyncThunk(
         console.log(token);
         try {
             // 서버 통신용 코드
-            // const result = await api_token.post('/chitchat/posts', payload);
-
-            // 로컬 통신용 코드
-            // const result = await api.post('/posts', payload);
-
-            // 기존 서버 통신용 api코드
             const result = await api.post('/chitchat/posts', payload, {
                 headers: {
                     Authorization: token,
                 },
             });
+
+            // 로컬 통신용 코드
+            // const result = await api.post('/posts', payload);
+
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -54,7 +52,7 @@ export const __deletePost = createAsyncThunk(
             const result = await api.post('/chitchat/posts', payload);
 
             // 로컬 통신용 코드
-            // const result = await api.post('/posts', payload);
+            // const result = await api.delete('/posts', payload);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -111,7 +109,7 @@ export const postsSlice = createSlice({
         [__deletePost.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.posts = state.posts.filter((item) => item.id !== payload);
+            state.posts = state.posts.filter((item) => item.postId !== payload);
         },
         [__deletePost.rejected]: (state, {payload}) => {
             state.isLoading = false;

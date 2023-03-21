@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
@@ -15,10 +15,17 @@ function Board() {
     const dispatch = useDispatch();
     const navi = useNavigate();
     const posts = useSelector((state) => state.posts.posts);
-  
+    console.log("posts", posts);
+
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const numPages = Math.ceil(posts.length/limit);
+    const offset = (page - 1) * limit;
+    console.log(numPages);
+    
     useEffect(()=>{
-      dispatch(__getPosts());
-    },[]);
+      dispatch(__getPosts(page));
+    },[page]);
 
   return (
     <Container>
@@ -37,54 +44,51 @@ function Board() {
             borderRadius: "10px"
         }}>
             <Row>
-            <Col>글 번호</Col>
-            <Col xs={8} style={{ textAlign: "center" }}>글 제목</Col>
-            <Col style={{ textAlign: "end" }}>아이디</Col>
+              <Col>글 번호</Col>
+              <Col xs={8} style={{ textAlign: "center" }}>글 제목</Col>
+              <Col style={{ textAlign: "end" }}>아이디</Col>
             </Row>
         </Container>
         <Container style={{
             marginTop: "1rem"}}>
             {/* 서버 통신용 코드 */}
-            {posts.slice(0).reverse().map((item) =>
-                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.post_Id}`)}}>
-                  <Col style={{ paddingLeft: "1.4rem" }}>{item?.post_Id}</Col>
+            {posts.slice(offset, offset + limit).map((item) =>
+                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
+                  <Col style={{ paddingLeft: "1.4rem", color: "#767676" }}>{item?.postId}</Col>
                   <Col>{item?.title}</Col>
-                  <Col style={{ textAlign: "end" }}>{item?.userId}</Col>
+                  <Col style={{ textAlign: "end", color: "#767676" }}>{item?.userId}</Col>
                 </Rows>
             )}
 
             {/* 로컬 통신용 코드 */}
             {/* {posts.slice(0).reverse().map((item) =>
-                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.id}`)}}>
-                  <Col style={{ paddingLeft: "1.4rem" }}>{item?.id}</Col>
-                  <Col>{item?.title}</Col>
-                  <Col style={{ textAlign: "end" }}>{item?.id}</Col>
-                </Rows>
+              <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
+                <Col style={{ paddingLeft: "1.4rem", color: "#767676" }}>{item?.postId}</Col>
+                <Col>{item?.title}</Col>
+                <Col style={{ textAlign: "end", color: "#767676"}}>{item?.userId}</Col>
+              </Rows>
             )} */}
         </Container>
         <hr />
         <Container style={{ marginTop: "2rem" }}>
-          <div>
-            <Pagination style={{
-              alignItems: "center"
-            }}>
+          <Pagination>
             <Pagination.First />
-            <Pagination.Prev />
-            <Pagination.Item>{1}</Pagination.Item>
-            <Pagination.Ellipsis />
-
-            <Pagination.Item>{10}</Pagination.Item>
-            <Pagination.Item>{11}</Pagination.Item>
-            <Pagination.Item active>{12}</Pagination.Item>
-            <Pagination.Item>{13}</Pagination.Item>
-            <Pagination.Item disabled>{14}</Pagination.Item>
-
-            <Pagination.Ellipsis />
-            <Pagination.Item>{20}</Pagination.Item>
-            <Pagination.Next />
+            <Pagination.Prev onClick={() => setPage(page - 1)} disabled={page === 1}/>
+            {/* <Pagination.Item>{1}</Pagination.Item> */}
+            {Array(numPages)
+              .fill()
+              .map((_, i) => (
+                <Pagination.Item
+                  key={i + 1}
+                  onClick={() => setPage(i + 1)}
+                  aria-current={page === i + 1 ? "page" : null}
+                >
+                  {i + 1}
+                </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={() => setPage(page + 1)}/>
             <Pagination.Last />
-            </Pagination>
-          </div>
+          </Pagination>
         </Container>
     </Container>
   )

@@ -14,6 +14,7 @@ export default function Detail() {
   // const navi = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector((state)=>state.posts.posts);
+  console.log(post)
   const [findPost, setFindPost] = useState({});
 
   const changeInputHandler = (event) => {
@@ -24,22 +25,23 @@ export default function Detail() {
   }
 
   const postDeleteHandler = () => {
-    dispatch(__deletePost(post.post_id));
+    dispatch(__deletePost(findPost.postId));
   }
 
   // 서버 통신용 코드
   useEffect(()=>{
     dispatch(__getPosts());
     setFindPost(post.find((item) => {
-      return item?.post_Id === parseInt(params.id);
+      return item?.postId === parseInt(params.id);
     }))
   },[JSON.stringify(post)]);
 
   // 로컬 통신용 코드
+  console.log(findPost)
   // useEffect(()=>{
   //   dispatch(__getPosts());
   //   setFindPost(post.find((item) => {
-  //     return item?.id === parseInt(params.id);
+  //     return item?.postId === parseInt(params.id);
   //   }))
   // },[JSON.stringify(post)]);
 
@@ -49,7 +51,7 @@ export default function Detail() {
       <Container>
         {/* 서버 통신용 코드 */}
         <div style={{marginTop: "3rem"}}>
-          <p>{findPost?.post_Id}</p>
+          <p>{findPost?.postId}</p>
           <p>작성자 : {findPost?.userId}</p>
           <hr />
         </div>
@@ -62,8 +64,8 @@ export default function Detail() {
           <h3>{findPost?.title}</h3>
         </div>
         <div style={{marginTop: "1rem"}}>
-          <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.id}</span>
-          <span>작성자 : {findPost?.id}</span>
+          <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.postId}</span>
+          <span>작성자 : {findPost?.userId}</span>
           <hr />
         </div>
         <P>{findPost?.content}</P> */}
