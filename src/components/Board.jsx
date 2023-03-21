@@ -86,14 +86,13 @@ function Board() {
                   {i + 1}
                 </Pagination.Item>
             ))}
-            <Pagination.Next onClick={() => setPage(page + 1)}/>
+            <Pagination.Next onClick={(page) => setPage(page + 1)} disabled={page === numPages}/>
             <Pagination.Last />
           </Pagination>
         </Container>
     </Container>
   )
 }
-
 
 const Rows = styled.div`
   display: grid;

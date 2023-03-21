@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import HeaderNav from '../components/HeaderNav'
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import Card from 'react-bootstrap/Card';
 
 import { __deletePost, __getPosts } from '../redux/modules/postModule';
 
@@ -16,6 +17,9 @@ export default function Detail() {
   const post = useSelector((state)=>state.posts.posts);
   console.log(post)
   const [findPost, setFindPost] = useState({});
+  const [comment, setComment] =useState({
+    contents: ""
+  });
 
   const changeInputHandler = (event) => {
     // const { value, name } = event.target;
@@ -28,6 +32,11 @@ export default function Detail() {
     dispatch(__deletePost(findPost.postId));
   }
 
+  //댓글........
+  const clickAddComment = (e) => {
+    setComment(e.target.value);
+  }
+
   // 서버 통신용 코드
   useEffect(()=>{
     dispatch(__getPosts());
@@ -37,7 +46,7 @@ export default function Detail() {
   },[JSON.stringify(post)]);
 
   // 로컬 통신용 코드
-  console.log(findPost)
+  // console.log(findPost)
   // useEffect(()=>{
   //   dispatch(__getPosts());
   //   setFindPost(post.find((item) => {
@@ -50,7 +59,7 @@ export default function Detail() {
       <HeaderNav />
       <Container>
         {/* 서버 통신용 코드 */}
-        <div style={{marginTop: "3rem"}}>
+        <div style={{ marginTop: "3rem" }}>
           <p>{findPost?.postId}</p>
           <p>작성자 : {findPost?.userId}</p>
           <hr />
@@ -73,19 +82,44 @@ export default function Detail() {
       {/* {findPost.map((item)=> item.id === findPost.id)
       
       } */}
-      <Container style={{alignItems: "end"}}>
+      <Container style={{ alignItems: "end" }}>
         <Btn>
-          <Button variant="outline-dark" onClick={()=>{navi("/")}}>이전</Button>{' '}
-          <Button variant="secondary" onClick={changeInputHandler}>수정</Button>{' '}
-          <Button variant="danger" onClick={postDeleteHandler}>삭제</Button>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              navi("/");
+            }}
+          >
+            이전
+          </Button>{" "}
+          <Button variant="secondary" onClick={changeInputHandler}>
+            수정
+          </Button>{" "}
+          <Button variant="danger" onClick={postDeleteHandler}>
+            삭제
+          </Button>
         </Btn>
       </Container>
       <hr />
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <StComment value={comment} onChange={clickAddComment}
+        type="text" placeholder="댓글을 달아주세요" />
+        &nbsp;<Button variant="secondary" >수정</Button>
+      </Container>
+      <p/>
       <Container>
-        <p>테스트라인</p>
+        <Card>
+          <Card.Body>댓글카드</Card.Body>
+        </Card>
       </Container>
     </div>
-  )
+  );
 }
 
 const P = styled.p`
@@ -99,4 +133,8 @@ const Btn = styled.div`
   display: flex;
   justify-content: end;
   gap: 0.5rem;
+`
+
+const StComment = styled.input`
+ width : 90%;
 `
