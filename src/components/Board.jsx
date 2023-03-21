@@ -17,7 +17,7 @@ function Board() {
     const posts = useSelector((state) => state.posts.posts);
     console.log("posts", posts);
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(3);
     const [limit, setLimit] = useState(10);
     const numPages = Math.ceil(posts.length/limit);
     const offset = (page - 1) * limit;
@@ -52,7 +52,7 @@ function Board() {
         <Container style={{
             marginTop: "1rem"}}>
             {/* 서버 통신용 코드 */}
-            {posts.slice(offset, offset + limit).map((item) =>
+            {posts.map((item) =>
                 <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
                   <Col style={{ paddingLeft: "1.4rem", color: "#767676" }}>{item?.postId}</Col>
                   <Col>{item?.title}</Col>

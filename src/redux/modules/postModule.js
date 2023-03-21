@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../axios/api";
-import { cookies } from "../../shared/cookie";
 
 export const __getPosts = createAsyncThunk(
     "getPosts",
@@ -8,7 +7,7 @@ export const __getPosts = createAsyncThunk(
         try {
             // 서버 통신용 코드
             const result = await api.get(`/chitchat/posts?sortBy=id&isAsc=true&size=10&page=${payload}`);
-            console.log(result);
+            console.log("result", result);
 
             // 로컬 통신용 코드
             // const result = await api.get('/posts');
@@ -22,8 +21,6 @@ export const __getPosts = createAsyncThunk(
 export const __sendPost = createAsyncThunk(
     "sendPost",
     async (payload, thunkAPI) => {
-        const token = cookies.get("token");
-        console.log(token);
         try {
             // 서버 통신용 코드
             const result = await api.post('/chitchat/posts', payload);
@@ -41,11 +38,26 @@ export const __sendPost = createAsyncThunk(
 export const __deletePost = createAsyncThunk(
     "deletePost",
     async (payload, thunkAPI) => {
-        const token = cookies.get("token");
-        console.log(token);
         try {
             // 서버 통신용 코드
             const result = await api.delete(`/chitchat/posts/${payload}`);
+
+            // 로컬 통신용 코드
+            // const result = await api.delete('/posts', payload);
+            return thunkAPI.fulfillWithValue(result.data);
+        } catch(error) {
+            return thunkAPI.rejectWithValue("error");
+        }
+    }
+);
+
+export const __fixPost = createAsyncThunk(
+    "fixPost",
+    async (payload, thunkAPI) => {
+        console.log(payload);
+        try {
+            // 서버 통신용 코드
+            const result = await api.patch(`/chitchat/posts/${payload.postId}`, payload);
 
             // 로컬 통신용 코드
             // const result = await api.delete('/posts', payload);
@@ -108,6 +120,22 @@ export const postsSlice = createSlice({
             state.posts = state.posts.filter((item) => item.postId !== payload);
         },
         [__deletePost.rejected]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.error = payload;
+        },
+
+        //__fixPost
+        [__fixPost.pending]: (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        },
+        [__fixPost.fulfilled]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.posts = payload;
+        },
+        [__fixPost.rejected]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = true;
             state.error = payload;

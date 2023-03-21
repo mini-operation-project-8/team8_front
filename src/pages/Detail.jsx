@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 
-import { __deletePost, __getPosts } from '../redux/modules/postModule';
+import { __getPosts, __deletePost, __fixPost } from '../redux/modules/postModule';
 
 export default function Detail() {
   const navi = useNavigate();
@@ -15,29 +15,41 @@ export default function Detail() {
   // const navi = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector((state)=>state.posts.posts);
+  const [edit, setEdit] = useState(false);
   const [findPost, setFindPost] = useState({});
+  const [modifiedPost, setModifiedPost] = useState({
+    title: "",
+    content: ""
+  })
+
   const [comment, setComment] =useState({
     contents: ""
   });
 
+  console.log(modifiedPost);
   const changeInputHandler = (event) => {
-    // const { value, name } = event.target;
-    // setPost((old) => {
-    //   return {...old, [name]: value};
-    // });
+    const { value, name } = event.target;
+    setModifiedPost((old) => {
+      return {...old, [name]: value};
+    });
   }
 
-  // const postDeleteHandler = () => {
-  //   if(window.confirm("정말 삭제하시겠습니까?")) {
-  //     dispatch(__deletePost(findPost.postId))
-  //     navi("/")
-  //   } else {
-  //     return;
-  //   }
-  // }
-
   const postDeleteHandler = () => {
-    dispatch(__deletePost(findPost.postId));
+    if(window.confirm("정말 삭제하시겠습니까?")) {
+      dispatch(__deletePost(findPost.postId))
+      navi("/")
+    } else {
+      return;
+    }
+  }
+
+  const postFixHandler = () => {
+    dispatch(__fixPost({
+      postId: findPost.postId,
+      title: modifiedPost.title,
+      content: modifiedPost.content
+    }))
+    setEdit((pre) => !pre);
   }
 
   //댓글........
@@ -45,37 +57,39 @@ export default function Detail() {
     setComment(e.target.value);
   }
 
-  // 서버 통신용 코드
   useEffect(()=>{
-    dispatch(__getPosts());
+    // dispatch(__getPosts());
     setFindPost(post.find((item) => {
       return item?.postId === parseInt(params.id);
     }))
   },[JSON.stringify(post)]);
 
-  // 로컬 통신용 코드
-  // console.log(findPost)
-  // useEffect(()=>{
-  //   dispatch(__getPosts());
-  //   setFindPost(post.find((item) => {
-  //     return item?.postId === parseInt(params.id);
-  //   }))
-  // },[JSON.stringify(post)]);
-
   return (
     <div>
       <HeaderNav />
-      <Container>
-        <div style={{marginTop: "3rem"}}>
-          <h3>{findPost?.title}</h3>
-        </div>
-        <hr />
-        <div style={{marginTop: "1rem"}}>
-          <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.postId}</span>
-          <span>작성자 : {findPost?.userId}</span>
-        </div>
-        <P>{findPost?.content}</P>
-      </Container>
+      {!edit ? 
+        <Container>
+          <div style={{marginTop: "3rem"}}>
+            <h3>{findPost?.title}</h3>
+          </div>
+          <hr />
+          <div style={{marginTop: "1rem"}}>
+            <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.postId}</span>
+            <span>작성자 : {findPost?.userId}</span>
+          </div>
+          <P>{findPost?.content}</P>
+        </Container>
+      :
+        <Container>
+          <div style={{marginTop: "3rem"}}>
+            <input type="text" name='title' value={modifiedPost.title} onChange={changeInputHandler}/>
+          </div>
+          <div>
+            <input type="textarea" name='content' value={modifiedPost.content} onChange={changeInputHandler}/>
+          </div>
+        </Container>
+      }
+      
       {/* {findPost.map((item)=> item.id === findPost.id)
       
       } */}
@@ -89,9 +103,15 @@ export default function Detail() {
           >
             이전
           </Button>{" "}
-          <Button variant="secondary" onClick={changeInputHandler}>
-            수정
-          </Button>{" "}
+          {!edit ? 
+            <Button variant="secondary" onClick={()=>{setEdit((pre) => !pre);}}>
+              수정
+            </Button>
+          :
+            <Button variant="secondary" onClick={postFixHandler}>
+              완료
+            </Button>
+          }
           <Button variant="danger" onClick={postDeleteHandler}>
             삭제
           </Button>
@@ -107,7 +127,7 @@ export default function Detail() {
       >
         <StComment value={comment} onChange={clickAddComment}
         type="text" placeholder="댓글을 달아주세요" />
-        &nbsp;<Button variant="secondary" >수정</Button>
+        &nbsp;<Button variant="secondary">수정</Button>
       </Container>
       <p/>
       <Container>

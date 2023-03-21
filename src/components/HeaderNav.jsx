@@ -9,7 +9,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function HeaderNav() {
   const [token, setToken] = useState(null);
   const navi = useNavigate();
-  console.log("token", token);
+  console.log("token!", token);
 
   useEffect(()=> {
     setToken(cookies.get("token"));
@@ -29,8 +29,7 @@ function HeaderNav() {
                         <Nav.Link href="/chitchat/login" onClick={()=>{navi("/chitchat/login")}}>로그인</Nav.Link>
                     :
                         <Nav.Link onClick={()=>{
-                            cookies.remove("token")
-                            navi("/");
+                            cookies.remove("token", {path: "/"})
                         }}>로그아웃</Nav.Link>
                     }
                 <Nav.Link eventKey={2} href="/chitchat/signup" onClick={()=>{navi("/chitchat/signup")}}>
