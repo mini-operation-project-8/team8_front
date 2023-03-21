@@ -19,6 +19,9 @@
 // });
 
 import axios from 'axios';
+import { cookies } from '../shared/cookie';
+
+const token = cookies.get("token")
 
 export const api = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
@@ -30,15 +33,19 @@ export const api = axios.create({
 // console.log(api)
 
 api.interceptors.request.use(
-    function(config){
-        console.log("인터셉터 요청 성공!");
-        //get.cookie를 넣어주면 헤더에 넣어서 보내줌
-        return config;
-    },
-    function(error){
-        console.log("인터셉터 요청 오류!");
-        return Promise.reject(error);
-    },
+    function (config) {
+        config.headers["authorization"] = `${token}`;
+        // config.headers["authorization"] = `Berer ${token}`;
+        console.log('인터셉터 요청 성공!')
+        // alert(config.headers.authorization)
+        return config
+      },
+    
+      // 오류 요청을 보내기 전 수행되는 함수
+      function (error) {
+        console.log('인터셉터 요청 오류')
+        return Promise.reject(error)
+      },
 )
 
 api.interceptors.response.use(
