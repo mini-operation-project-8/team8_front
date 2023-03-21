@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __signupUser } from "../redux/modules/userModule";
 import { cookies } from "../shared/cookie";
+import { idCheck, pwCheck } from "../shared/regExp";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function SignUpPage() {
   const [user, setUser] =useState({
     userId : "",
     password : "",
+    passwordCheck: "",
   });
 
   const changeInputHandler = (e)=> {
@@ -24,20 +26,22 @@ function SignUpPage() {
   }; 
 
   // 회원가입 id,password,passwordCheck 유효성 test 
-  const clickEffectivenessHandeler = (e) => {
-    const { userId, password } = user;
-    const userIdRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,10}$/;
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()+=-])(?=.*[0-9]).{8,15}$/;
-    if (!userIdRegex.test(userId)) {
+  const CheckSignUp = (e) => {
+    const { userId, password, passwordCheck } = user;
+    if(userId ===""|| password ==="" || passwordCheck ===""){
+      alert("아이디, 비밀번호, 비밀번호 재확인을 모두 입력해주세요")
+      return;
+    }
+    if (!idCheck(userId)) {
       alert('영문 소문자, 숫자 조합으로 4-10이하로 입력해주세요');
       return;
     }
-    if (!passwordRegex.test(password)) {
+    if (!pwCheck(password)) {
       alert('영문 대소문자, 숫자, 특수문자 조합으로 8-15자 이하로 입력해주세요');
       return;
     } 
     if (user.password !== user.passwordCheck) {
-      alert('password 입력이 다릅니다');
+      alert('password 입력이 일치하지 않습니다');
       return;
     }
      else {
@@ -49,7 +53,7 @@ function SignUpPage() {
 
   const submitBtnHadler =(e) => {
     e.preventDefault();
-    clickEffectivenessHandeler();
+    CheckSignUp();
   };
 
   // 로그인하고 나서는 signup page 못 가게 설정
@@ -94,8 +98,8 @@ function SignUpPage() {
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password Check</Form.Label>
         <Form.Control 
-        type="password" placeholder="8자~15자 대소문자/숫자/특수문자"
-        maxLength={15}
+        type="password" name="passwordCheck"
+        maxLength={15} placeholder="8자~15자 대소문자/숫자/특수문자"
         value={user.passwordCheck} onChange={changeInputHandler}/>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox"></Form.Group>

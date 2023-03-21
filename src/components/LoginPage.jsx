@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __loginUser } from "../redux/modules/userModule";
+import api from "../axios/api";
 import { cookies } from "../shared/cookie";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [user, setUser] =useState({
     userId : "",
     password : "",
@@ -25,15 +23,16 @@ function LoginPage() {
 
   const submitLoginBtnHadler = async(e) => {
     e.preventDefault();
-    if (user) {
-      dispatch(__loginUser({
-        userId: "",
-        password: "",
-      }));
+    api.post("/chitchat/auth/login", user).then((result) => {
+    });
+    try { 
+      const result = await api.post("/chitchat/auth/login", user)
+      // console.log(result);
+      cookies.set("token", result.headers.authorization, {path : "/"});
+      navigate ("/")
       alert("Welcome to Chit Chat")
-      navigate("/");
-    } else {
-      alert("아이디와 비밀번호를 확인하세요");
+    } catch (e) {
+      alert("아이디와 비밀번호를 확인하세요")
     }
   };
 
