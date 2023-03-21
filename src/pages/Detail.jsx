@@ -14,8 +14,8 @@ export default function Detail() {
   // const navi = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector((state)=>state.posts.posts);
-  console.log(post)
   const [findPost, setFindPost] = useState({});
+  console.log(findPost);
 
   const changeInputHandler = (event) => {
     // const { value, name } = event.target;
@@ -24,8 +24,18 @@ export default function Detail() {
     // });
   }
 
+  // const postDeleteHandler = () => {
+  //   if(window.confirm("정말 삭제하시겠습니까?")) {
+  //     dispatch(__deletePost(findPost.postId))
+  //     navi("/")
+  //   } else {
+  //     return;
+  //   }
+  // }
+
   const postDeleteHandler = () => {
-    dispatch(__deletePost(findPost.postId));
+    dispatch(__deletePost(findPost.postId))
+    navi("/")
   }
 
   // 서버 통신용 코드
@@ -49,26 +59,15 @@ export default function Detail() {
     <div>
       <HeaderNav />
       <Container>
-        {/* 서버 통신용 코드 */}
         <div style={{marginTop: "3rem"}}>
-          <p>{findPost?.postId}</p>
-          <p>작성자 : {findPost?.userId}</p>
-          <hr />
-        </div>
-        <p>{findPost?.title}</p>
-        <hr />
-        <P>{findPost?.content}</P>
-
-        {/* 로컬 통신용 코드 */}
-        {/* <div style={{marginTop: "3rem"}}>
           <h3>{findPost?.title}</h3>
         </div>
+        <hr />
         <div style={{marginTop: "1rem"}}>
           <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.postId}</span>
           <span>작성자 : {findPost?.userId}</span>
-          <hr />
         </div>
-        <P>{findPost?.content}</P> */}
+        <P>{findPost?.content}</P>
       </Container>
       {/* {findPost.map((item)=> item.id === findPost.id)
       
@@ -93,6 +92,7 @@ const P = styled.p`
   border-radius: 5px;
   padding: 1rem;
   height: 30vh;
+  margin-top: 1rem;
 `
 
 const Btn = styled.div`

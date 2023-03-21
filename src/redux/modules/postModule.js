@@ -7,8 +7,8 @@ export const __getPosts = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             // 서버 통신용 코드
-            const result = await api.get(`/chitchat/posts?sortBy=id&isAsc=true&size=17&page=${payload}`);
-            console.log("result", result);
+            const result = await api.get(`/chitchat/posts?sortBy=id&isAsc=true&size=10&page=${payload}`);
+            console.log(result);
 
             // 로컬 통신용 코드
             // const result = await api.get('/posts');
@@ -26,11 +26,7 @@ export const __sendPost = createAsyncThunk(
         console.log(token);
         try {
             // 서버 통신용 코드
-            const result = await api.post('/chitchat/posts', payload, {
-                headers: {
-                    Authorization: token,
-                },
-            });
+            const result = await api.post('/chitchat/posts', payload);
 
             // 로컬 통신용 코드
             // const result = await api.post('/posts', payload);
@@ -49,7 +45,7 @@ export const __deletePost = createAsyncThunk(
         console.log(token);
         try {
             // 서버 통신용 코드
-            const result = await api.post('/chitchat/posts', payload);
+            const result = await api.delete(`/chitchat/posts/${payload}`);
 
             // 로컬 통신용 코드
             // const result = await api.delete('/posts', payload);

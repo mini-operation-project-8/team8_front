@@ -6,15 +6,14 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-
 function HeaderNav() {
-  const [tokenState, setTokenState] = useState(false);
+  const [token, setToken] = useState(null);
   const navi = useNavigate();
+  console.log("token", token);
 
-  useEffect(() => {
-    const token = cookies.get("token");
-    token && setTokenState(true);
-  }, []);
+  useEffect(()=> {
+    setToken(cookies.get("token"));
+  }, [])
 
   return (
     <div>
@@ -26,12 +25,12 @@ function HeaderNav() {
                 <Nav className="me-auto">
                 </Nav>
                 <Nav>
-                    {!tokenState ? 
+                    {token == null ? 
                         <Nav.Link href="/chitchat/login" onClick={()=>{navi("/chitchat/login")}}>로그인</Nav.Link>
                     :
-                        <Nav.Link onClick={() => {
-                            cookies.remove("token");
-                            navi("/")
+                        <Nav.Link onClick={()=>{
+                            cookies.remove("token")
+                            navi("/");
                         }}>로그아웃</Nav.Link>
                     }
                 <Nav.Link eventKey={2} href="/chitchat/signup" onClick={()=>{navi("/chitchat/signup")}}>

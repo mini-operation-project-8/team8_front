@@ -59,6 +59,7 @@ function Board() {
                   <Col style={{ textAlign: "end", color: "#767676" }}>{item?.userId}</Col>
                 </Rows>
             )}
+            {/* .slice(offset, offset + limit) */}
 
             {/* 로컬 통신용 코드 */}
             {/* {posts.slice(0).reverse().map((item) =>
@@ -86,7 +87,7 @@ function Board() {
                   {i + 1}
                 </Pagination.Item>
             ))}
-            <Pagination.Next onClick={() => setPage(page + 1)}/>
+            <Pagination.Next onClick={() => setPage(page + 1)} disabled={page === numPages}/>
             <Pagination.Last />
           </Pagination>
         </Container>

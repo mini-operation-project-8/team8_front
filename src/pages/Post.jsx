@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import HeaderNav from '../components/HeaderNav';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import styled from 'styled-components';
 
 import { cookies } from "../shared/cookie";
 import { useNavigate } from 'react-router-dom';
@@ -52,21 +53,27 @@ function Post() {
       <Container>
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label><h2>제목</h2></Form.Label>
+            <Form.Label style={{marginTop:"3rem"}}><h3>제목</h3></Form.Label>
             <Form.Control value={post.title} name="title" type="text" onChange={changeInputHandler} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label><h2>내용</h2></Form.Label>
+            <Form.Label style={{marginTop:"1rem"}}><h3>내용</h3></Form.Label>
             <Form.Control value={post.content} name="content" as="textarea" rows={20} onChange={changeInputHandler} />
           </Form.Group>
         </Form>
-        <div style={{alignItem:"end"}}>
-          <Button variant="light" onClick={()=>{navi("/")}}>취소</Button>{' '}
+        <Div>
+          <Button variant="outline-dark" onClick={()=>{navi("/")}}>취소</Button>{' '}
           <Button type='submit' variant="dark" onClick={submitButtonHandler}>작성</Button>
-        </div>
+        </Div>
       </Container>
     </div>
   )
 }
 
 export default Post
+
+const Div = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 0.5rem;
+`
