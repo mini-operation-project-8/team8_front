@@ -8,10 +8,10 @@ import Card from 'react-bootstrap/Card';
 import { Container } from 'react-bootstrap'
 
 function Comment({posts}) {
-  const { id, commentId } = useParams();
+  const { id } = useParams();
   const [comment, setComment] = useState('');
   const dispatch = useDispatch();
-  const comments = useSelector((state) => state.posts.commentList);
+  const comments = useSelector((state) => state.posts);
   console.log(comments)
 
   const addCommentHandler = () => {
@@ -27,9 +27,9 @@ function Comment({posts}) {
   useEffect(() =>{
     dispatch(__getComments({
       postId : id,
-      commentId : comments.commentId,
+     
     }))
-  }, [dispatch, id, comments.commentId])
+  }, [dispatch, id])
 
   return (
     <>
@@ -52,7 +52,7 @@ function Comment({posts}) {
       </Button>
       </Container>
       <Container style ={{marginTop:"15px"}}>
-        {comments
+        {/* {comments
           .filter((el) => el && el.postId === id)
           .map((el) => {
             return (
@@ -60,7 +60,7 @@ function Comment({posts}) {
                 <Card.Body>{el.contents}</Card.Body>
               </Card>
             );
-          })}
+          })} */}
       </Container>
     </>
   );
