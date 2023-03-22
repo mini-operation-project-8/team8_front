@@ -25,8 +25,8 @@ export default function Detail() {
     comment: ""
   })
   
-  console.log("posts", posts)
-  console.log("postData", postData);
+  // console.log("posts", posts)
+  // console.log("postData", postData);
 
   const [modifiedPost, setModifiedPost] = useState({
     title: postData.title,
@@ -135,7 +135,7 @@ export default function Detail() {
         </div>
       </Container>
       <hr />
-      <Comment posts={posts}/>
+      <Comment />
     </div>
   );
 }

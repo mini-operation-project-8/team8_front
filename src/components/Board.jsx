@@ -19,7 +19,7 @@ function Board() {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const numPages = Math.ceil(28/limit);
+    const numPages = Math.ceil(40/limit);
     const offset = (page - 1) * limit;
     
     useEffect(()=>{

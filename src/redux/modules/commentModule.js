@@ -3,12 +3,10 @@ import api from "../../axios/api";
 
 export const __getComments = createAsyncThunk(
     "getComments",
-    async ({postId,commentId}, thunkAPI) => {
-        console.log(postId);
+    async ({postId}, thunkAPI) => {
         try {
-            let result = await api.get(`/chitchat/${postId}/comments/${commentId}`);
-            // let result = await api.get(`/chitchat/${postId}/commentList`);
-            console.log(result);
+            const result = await api.get(`/chitchat/${postId}/comments`);
+            // console.log(result.data);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -25,6 +23,18 @@ export const __sendComment = createAsyncThunk(
             return thunkAPI.rejectWithValue(error);
             });
         return thunkAPI.fulfillWithValue(result.data);
+    }
+);
+
+export const __deleteComment = createAsyncThunk(
+    "deleteComment",
+    async ({postId, commentId}, thunkAPI) => {
+        try {
+            const result = await api.delete(`/chitchat/${postId}/comments/${commentId}`);
+            return thunkAPI.fulfillWithValue(result.data);
+        } catch(error) {
+            return thunkAPI.rejectWithValue("error");
+        }
     }
 );
 
@@ -47,15 +57,7 @@ export const commentsSlice = createSlice({
         [__getComments.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isError = false;
-            const comments = payload;
-            const postId = comments.length > 0 ? comments[0].postId : null;
-            if (postId !== null) {
-                const postIndex = state.posts.findIndex((post) => post.postId === postId);
-                if (postIndex !== -1) {
-                    state.posts[postIndex].commentList = comments;
-                }
-            }
-            state.comments = comments;
+            state.comments = payload;
         },
         [__getComments.rejected]: (state, action) => {
             state.isLoading = false;
@@ -84,6 +86,21 @@ export const commentsSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.error = action.payload;
+        },
+        // deleteComment
+        [__deleteComment.pending]: (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        },
+        [__deleteComment.fulfilled]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.posts = state.posts.filter((item) => item.postId !== payload);
+        },
+        [__deleteComment.rejected]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.error = payload;
         },
     }
 })
