@@ -7,29 +7,26 @@ import { __getComments, __sendComment } from "../redux/modules/commentModule";
 import Card from 'react-bootstrap/Card';
 import { Container } from 'react-bootstrap'
 
-function Comment({posts}) {
+function Comment() {
   const { id } = useParams();
   const [comment, setComment] = useState('');
   const dispatch = useDispatch();
-  const comments = useSelector((state) => state.posts);
-  console.log(comments)
+  const {comments} = useSelector((state) => state.comments);
+  // console.log(comments)
 
-  const addCommentHandler = () => {
-    dispatch(
-      __sendComment({
+  const addCommentHandler = async () => {
+    await dispatch(__sendComment({
         postId: id,
-        contents : comment,
+        contents: comment,
       })
     );
     setComment("");
+    dispatch(__getComments({ postId: id }));
   };
-
+  
   useEffect(() =>{
-    dispatch(__getComments({
-      postId : id,
-     
-    }))
-  }, [dispatch, id])
+    dispatch(__getComments({ postId: id }))
+  }, [])
 
   return (
     <>
@@ -37,7 +34,7 @@ function Comment({posts}) {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "space-between"
         }}
       >
         <StComment
@@ -51,16 +48,20 @@ function Comment({posts}) {
           작성
       </Button>
       </Container>
-      <Container style ={{marginTop:"15px"}}>
-        {/* {comments
-          .filter((el) => el && el.postId === id)
-          .map((el) => {
+      <Container style ={{marginTop:"15px", display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between"}}>
+        {
+          comments?.map((el) => {
             return (
-              <Card style={{ marginTop: "15px" }}>
-                <Card.Body>{el.contents}</Card.Body>
+              <Card key={el.id} style={{ marginTop: "15px" }}>
+                <Card.Body>{el.userId}&nbsp;&nbsp;&nbsp;{el.contents}</Card.Body>
+                <Button variant="danger">
+                삭제
+              </Button>
               </Card>
             );
-          })} */}
+          })}
       </Container>
     </>
   );
@@ -71,4 +72,3 @@ export default Comment;
 const StComment = styled.input`
   width: 90%;
 `;
-

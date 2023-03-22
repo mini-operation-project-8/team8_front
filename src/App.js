@@ -15,7 +15,7 @@ function App() {
         <Route path="/chitchat/login" element={<Login />}/>
         <Route path="/chitchat/post" element={<Post />}/>
         <Route path="/chitchat/detail/:id" element={<Detail />}/>
-        <Route path="/chitchat/:id/comments/:commentId" element={<Comment />} />
+        <Route path="/chitchat/:id/comments" element={<Comment />} />
       </Routes>
     </BrowserRouter>
   );

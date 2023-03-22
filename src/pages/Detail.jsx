@@ -122,7 +122,7 @@ export default function Detail() {
         </div>
       </Container>
       <hr />
-      <Comment posts={posts}/>
+      <Comment />
     </div>
   );
 }
