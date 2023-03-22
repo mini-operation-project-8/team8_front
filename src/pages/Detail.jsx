@@ -32,7 +32,7 @@ export default function Detail() {
     title: postData.title,
     content: postData.content
   })
-
+  
   const changeInputHandler = (event) => {
     const { value, name } = event.target;
     setModifiedPost((old) => {
@@ -135,7 +135,7 @@ export default function Detail() {
         </div>
       </Container>
       <hr />
-      <Comment/>
+      <Comment posts={posts}/>
     </div>
   );
 }
