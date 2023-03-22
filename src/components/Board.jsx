@@ -20,13 +20,16 @@ function Board() {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const numPages = Math.ceil(count.totalPosts/limit);
+    const numPages = Math.ceil((count.totalPosts || 0)/limit);
     const offset = (page - 1) * limit;
     
     useEffect(()=>{
       dispatch(__getPosts(page));
-      dispatch(__getPostCount());
     },[JSON.stringify(posts), page]);
+
+    useEffect(()=>{
+      dispatch(__getPostCount());
+    },[JSON.stringify(count)]);
 
   return (
     <Container>

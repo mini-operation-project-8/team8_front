@@ -33,7 +33,7 @@ function HeaderNav() {
                     </>
                     :
                         <Nav.Link onClick={()=>{
-                            cookies.remove("token", {path: "/"})
+                            cookies.remove("token")
                             navi("/")
                         }}>로그아웃</Nav.Link>
                     }
