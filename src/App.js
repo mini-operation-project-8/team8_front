@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 import SignUp from "./pages/SignUp";
+import Comment from "./components/Comment";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/chitchat/login" element={<Login />}/>
         <Route path="/chitchat/post" element={<Post />}/>
         <Route path="/chitchat/detail/:id" element={<Detail />}/>
+        <Route path="/chitchat/:id/comments/:commentId" element={<Comment />} />
       </Routes>
     </BrowserRouter>
   );

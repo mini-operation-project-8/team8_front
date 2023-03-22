@@ -22,7 +22,7 @@ export default function Detail() {
     title: "",
     content: ""
   })
-
+  
   const changeInputHandler = (event) => {
     const { value, name } = event.target;
     setModifiedPost((old) => {
@@ -124,7 +124,7 @@ export default function Detail() {
         </div>
       </Container>
       <hr />
-      <Comment/>
+      <Comment posts={posts}/>
     </div>
   );
 }
