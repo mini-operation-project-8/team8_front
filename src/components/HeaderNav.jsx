@@ -9,7 +9,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function HeaderNav() {
   const [token, setToken] = useState(null);
   const navi = useNavigate();
-  console.log("token!", token);
+//   console.log("token!", token);
 
   useEffect(()=> {
     setToken(cookies.get("token"));

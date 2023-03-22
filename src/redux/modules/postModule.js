@@ -7,7 +7,7 @@ export const __getPosts = createAsyncThunk(
         try {
             // 서버 통신용 코드
             const result = await api.get(`/chitchat/posts?sortBy=id&isAsc=true&size=10&page=${payload}`);
-            console.log("result", result);
+            // console.log("result", result);
 
             // 로컬 통신용 코드
             // const result = await api.get('/posts');
@@ -54,7 +54,7 @@ export const __deletePost = createAsyncThunk(
 export const __fixPost = createAsyncThunk(
     "fixPost",
     async (payload, thunkAPI) => {
-        console.log(payload);
+        // console.log(payload);
         try {
             // 서버 통신용 코드
             const result = await api.patch(`/chitchat/posts/${payload.postId}`, payload);

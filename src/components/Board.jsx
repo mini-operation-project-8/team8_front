@@ -15,13 +15,13 @@ function Board() {
     const dispatch = useDispatch();
     const navi = useNavigate();
     const posts = useSelector((state) => state.posts.posts);
-    console.log("posts", posts);
+    // console.log("posts", posts);
 
     const [page, setPage] = useState(3);
     const [limit, setLimit] = useState(10);
     const numPages = Math.ceil(posts.length/limit);
     const offset = (page - 1) * limit;
-    console.log(numPages);
+    // console.log(numPages);
     
     useEffect(()=>{
       dispatch(__getPosts(page));

@@ -1,32 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-// import api from "../../axios/api";
+import api from "../../axios/api";
 
-export const __getComments = createAsyncThunk(
-    "getComments",
-    async (payload, thunkAPI) => {
-        try {
-            const result = await axios.get('http://localhost:4000/comments');
-            console.log(result);
-            return thunkAPI.fulfillWithValue(result.data);
-        } catch(error) {
-            return thunkAPI.rejectWithValue("error");
-        }
-    }
-);
+// export const __getComments = createAsyncThunk(
+//     "getComments",
+//     async (payload, thunkAPI) => {
+//         try {
+//             const result = await axios.get('http://localhost:4000/comments');
+//             console.log(result);
+//             return thunkAPI.fulfillWithValue(result.data);
+//         } catch(error) {
+//             return thunkAPI.rejectWithValue("error");
+//         }
+//     }
+// );
 
 export const __sendComment = createAsyncThunk(
     "sendComment",
-    async (payload, thunkAPI) => {
+    async ({postId, contents}, thunkAPI) => {
         try {
-            console.log(payload);
-            const result = await axios.post('http://localhost:4000/posts', payload);
+            const result = await api.post(`/chitchat/${postId}/comments`, {contents});
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
         }
     }
 );
+
 
 const initialState = {
     comments: [],
@@ -37,20 +36,20 @@ export const commentsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [__getComments.pending]: (state) => {
-            state.isLoading = true;
-            state.isError = false;
-        },
-        [__getComments.fulfilled]: (state, {payload}) => {
-            state.isLoading = false;
-            state.isError = false;
-            state.comments = payload;
-        },
-        [__getComments.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.error = action.payload;
-        },
+        // [__getComments.pending]: (state) => {
+        //     state.isLoading = true;
+        //     state.isError = false;
+        // },
+        // [__getComments.fulfilled]: (state, {payload}) => {
+        //     state.isLoading = false;
+        //     state.isError = false;
+        //     state.comments = payload;
+        // },
+        // [__getComments.rejected]: (state, action) => {
+        //     state.isLoading = false;
+        //     state.isError = true;
+        //     state.error = action.payload;
+        // },
 
         [__sendComment.pending]: (state) => {
             state.isLoading = true;
