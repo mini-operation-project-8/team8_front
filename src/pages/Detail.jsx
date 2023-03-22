@@ -5,10 +5,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import HeaderNav from '../components/HeaderNav'
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
+=======
+>>>>>>> 2d852ba60a861e3dd71e8ce7e4d04bbaa6f49a6a
 import { __getPosts, __deletePost, __fixPost } from '../redux/modules/postModule';
+import Comment from '../components/Comment';
 
 export default function Detail() {
   const navi = useNavigate();
@@ -23,10 +27,14 @@ export default function Detail() {
     content: ""
   })
 
+<<<<<<< HEAD
   const [comment, setComment] =useState({
     contents: ""
   });
 
+=======
+  // console.log(modifiedPost);
+>>>>>>> 2d852ba60a861e3dd71e8ce7e4d04bbaa6f49a6a
   const changeInputHandler = (event) => {
     const { value, name } = event.target;
     setModifiedPost((old) => {
@@ -49,11 +57,6 @@ export default function Detail() {
       modifiedPost
     }))
     setEdit((pre) => !pre);
-  }
-
-  //댓글........
-  const clickAddComment = (e) => {
-    setComment(e.target.value);
   }
 
   useEffect(()=>{
@@ -133,23 +136,7 @@ export default function Detail() {
         </div>
       </Container>
       <hr />
-      <Container
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <StComment value={comment} onChange={clickAddComment}
-        type="text" placeholder="댓글을 달아주세요" />
-        &nbsp;<Button variant="secondary">수정</Button>
-      </Container>
-      <p/>
-      <Container>
-        <Card>
-          <Card.Body>댓글카드</Card.Body>
-        </Card>
-      </Container>
+      <Comment/>
     </div>
   );
 }
@@ -166,8 +153,4 @@ const Btn = styled.div`
   display: flex;
   justify-content: end;
   gap: 0.5rem;
-`
-
-const StComment = styled.input`
- width : 90%;
 `
