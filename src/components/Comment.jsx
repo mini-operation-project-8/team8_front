@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { __getComments, __sendComment } from "../redux/modules/commentModule";
+import { __deleteComment, __getComments, __sendComment } from "../redux/modules/commentModule";
 import Card from 'react-bootstrap/Card';
 import { Container } from 'react-bootstrap'
 
@@ -23,10 +23,10 @@ function Comment() {
     setComment("");
     dispatch(__getComments({ postId: id }));
   };
-  
+
   useEffect(() =>{
     dispatch(__getComments({ postId: id }))
-  }, [])
+  }, [comments])
 
   return (
     <>
@@ -56,9 +56,15 @@ function Comment() {
             return (
               <Card key={el.id} style={{ marginTop: "15px" }}>
                 <Card.Body>{el.userId}&nbsp;&nbsp;&nbsp;{el.contents}</Card.Body>
-                <Button variant="danger">
-                삭제
-              </Button>
+                <Button variant="danger" onClick={()=>{
+                  dispatch(
+                  __deleteComment({
+                    postId: id,
+                    commentId : el.commentId
+                  }))
+                  }}>
+                  삭제
+                </Button>
               </Card>
             );
           })}
