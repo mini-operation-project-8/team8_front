@@ -17,8 +17,7 @@ export const __getPost = createAsyncThunk(
     "getPost",
     async (payload, thunkAPI) => {
         try {
-            const result = await api.get(`/chitchat/posts/36`);
-            console.log(result);
+            const result = await api.get(`/chitchat/posts/${payload}`);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -53,7 +52,6 @@ export const __deletePost = createAsyncThunk(
 export const __fixPost = createAsyncThunk(
     "fixPost",
     async ({postId, modifiedPost}, thunkAPI) => {
-        console.log("payload", modifiedPost);
         try {
             const result = await api.patch(`/chitchat/posts/${postId}`, modifiedPost);
             return thunkAPI.fulfillWithValue(result.data);
@@ -104,7 +102,7 @@ export const postsSlice = createSlice({
             state.error = payload;
         },
 
-        //__sendPost
+        //__sendPost(새로운 게시글 작성)
         [__sendPost.pending]: (state) => {
             state.isLoading = true;
             state.isError = false;

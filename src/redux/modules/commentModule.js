@@ -6,7 +6,7 @@ export const __getComments = createAsyncThunk(
     async ({postId,commentId}, thunkAPI) => {
         console.log(postId);
         try {
-            let result = await api.get(`/chitchat/${postId}/comments/${commentId}`);
+            let result = await api.get(`/chitchat/${postId}/comments`);
             // let result = await api.get(`/chitchat/${postId}/commentList`);
             console.log(result);
             return thunkAPI.fulfillWithValue(result.data);

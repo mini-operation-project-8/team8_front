@@ -6,33 +6,35 @@ import Pagination from 'react-bootstrap/Pagination';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
-import Table from 'react-bootstrap/Table';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { __getPosts } from '../redux/modules/postModule';
+import { __getPostCount } from '../redux/modules/countModule';
 import { useNavigate } from 'react-router-dom';
 
 function Board() {
     const dispatch = useDispatch();
     const navi = useNavigate();
     const posts = useSelector((state) => state.posts.posts);
+    const count = useSelector((state) => state.count.count);
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const numPages = Math.ceil(28/limit);
+    const numPages = Math.ceil(count.totalPosts/limit);
     const offset = (page - 1) * limit;
     
     useEffect(()=>{
       dispatch(__getPosts(page));
-    },[JSON.stringify(page)]);
+      dispatch(__getPostCount());
+    },[JSON.stringify(posts), page]);
 
   return (
     <Container>
       <Container style={{
           marginTop: "3rem"}}>
           <Stack direction="horizontal" gap={2}>
-              <h2>게시판</h2>
-              <Button variant="dark" className='ms-auto' onClick={()=>{navi("/chitchat/post")}}>글쓰기</Button>
+            <h2>게시판</h2>
+            <Button variant="dark" className='ms-auto' onClick={()=>{navi("/chitchat/post")}}>글쓰기</Button>
           </Stack>
       </Container>
       <Container style={{
@@ -49,12 +51,12 @@ function Board() {
           </Row>
       </Container>
       <Container style={{marginTop: "1rem"}}>
-          {posts.map((item) =>
-              <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
-                <Col style={{color: "#767676"}}>{item?.postId}</Col>
-                <Col xs={9}>{item?.title}</Col>
-                <Col style={{color: "#767676", textAlign: "end"}}>{item?.userId}</Col>
-              </Rows>
+          {Array.isArray(posts) && posts?.map((item) =>
+            <Rows style={{ marginBottom: "0.5rem" }} key={item.postId} onClick={()=>{navi(`/chitchat/detail/${item?.postId}`)}}>
+              <Col style={{color: "#767676"}}>{item?.postId}</Col>
+              <Col xs={9}>{item?.title}</Col>
+              <Col style={{color: "#767676", textAlign: "end"}}>{item?.userId}</Col>
+            </Rows>
           )}
           {/* .slice(offset, offset + limit) */}
       </Container>
