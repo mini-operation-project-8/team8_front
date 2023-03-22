@@ -29,6 +29,7 @@ export const __sendComment = createAsyncThunk(
 export const __deleteComment = createAsyncThunk(
     "deleteComment",
     async ({postId, commentId}, thunkAPI) => {
+        console.log(commentId);
         try {
             const result = await api.delete(`/chitchat/${postId}/comments/${commentId}`);
             return thunkAPI.fulfillWithValue(result.data);
@@ -95,7 +96,7 @@ export const commentsSlice = createSlice({
         [__deleteComment.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.posts = state.posts.filter((item) => item.postId !== payload);
+            state.comments = state.comments.filter((item) => item.commentId !== payload);
         },
         [__deleteComment.rejected]: (state, {payload}) => {
             state.isLoading = false;
