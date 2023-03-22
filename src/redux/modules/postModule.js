@@ -5,12 +5,7 @@ export const __getPosts = createAsyncThunk(
     "getPosts",
     async (payload, thunkAPI) => {
         try {
-            // 서버 통신용 코드
             const result = await api.get(`/chitchat/posts?sortBy=id&isAsc=true&size=10&page=${payload}`);
-            console.log("result", result);
-
-            // 로컬 통신용 코드
-            // const result = await api.get('/posts');
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -22,12 +17,7 @@ export const __sendPost = createAsyncThunk(
     "sendPost",
     async (payload, thunkAPI) => {
         try {
-            // 서버 통신용 코드
             const result = await api.post('/chitchat/posts', payload);
-
-            // 로컬 통신용 코드
-            // const result = await api.post('/posts', payload);
-
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -39,11 +29,7 @@ export const __deletePost = createAsyncThunk(
     "deletePost",
     async (payload, thunkAPI) => {
         try {
-            // 서버 통신용 코드
             const result = await api.delete(`/chitchat/posts/${payload}`);
-
-            // 로컬 통신용 코드
-            // const result = await api.delete('/posts', payload);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -53,14 +39,11 @@ export const __deletePost = createAsyncThunk(
 
 export const __fixPost = createAsyncThunk(
     "fixPost",
-    async (payload, thunkAPI) => {
-        console.log(payload);
+    async ({postId, modifiedPost}, thunkAPI) => {
+        console.log("payload", modifiedPost);
         try {
-            // 서버 통신용 코드
-            const result = await api.patch(`/chitchat/posts/${payload.postId}`, payload);
-
-            // 로컬 통신용 코드
-            // const result = await api.delete('/posts', payload);
+            const result = await api.patch(`/chitchat/posts/${postId}`, modifiedPost);
+            console.log("result", result);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -133,8 +116,8 @@ export const postsSlice = createSlice({
         [__fixPost.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.posts = payload;
-        },
+            state.posts = payload
+       },
         [__fixPost.rejected]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = true;

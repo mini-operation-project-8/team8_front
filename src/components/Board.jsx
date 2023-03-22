@@ -15,17 +15,15 @@ function Board() {
     const dispatch = useDispatch();
     const navi = useNavigate();
     const posts = useSelector((state) => state.posts.posts);
-    console.log("posts", posts);
 
-    const [page, setPage] = useState(3);
+    const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const numPages = Math.ceil(posts.length/limit);
+    const numPages = Math.ceil(33/limit);
     const offset = (page - 1) * limit;
-    console.log(numPages);
     
     useEffect(()=>{
       dispatch(__getPosts(page));
-    },[page]);
+    },[JSON.stringify(page)]);
 
   return (
     <Container>
@@ -60,15 +58,6 @@ function Board() {
                 </Rows>
             )}
             {/* .slice(offset, offset + limit) */}
-
-            {/* 로컬 통신용 코드 */}
-            {/* {posts.slice(0).reverse().map((item) =>
-              <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
-                <Col style={{ paddingLeft: "1.4rem", color: "#767676" }}>{item?.postId}</Col>
-                <Col>{item?.title}</Col>
-                <Col style={{ textAlign: "end", color: "#767676"}}>{item?.userId}</Col>
-              </Rows>
-            )} */}
         </Container>
         <hr />
         <Container style={{ marginTop: "2rem" }}>

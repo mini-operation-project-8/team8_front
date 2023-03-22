@@ -6,6 +6,7 @@ import HeaderNav from '../components/HeaderNav'
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
 
 import { __getPosts, __deletePost, __fixPost } from '../redux/modules/postModule';
 
@@ -14,9 +15,9 @@ export default function Detail() {
   const params = useParams();
   // const navi = useNavigate();
   const dispatch = useDispatch();
-  const post = useSelector((state)=>state.posts.posts);
+  const {posts} = useSelector((state)=>state.posts);
   const [edit, setEdit] = useState(false);
-  const [findPost, setFindPost] = useState({});
+  const [findPost, setFindPost] = useState("");
   const [modifiedPost, setModifiedPost] = useState({
     title: "",
     content: ""
@@ -26,7 +27,6 @@ export default function Detail() {
     contents: ""
   });
 
-  console.log(modifiedPost);
   const changeInputHandler = (event) => {
     const { value, name } = event.target;
     setModifiedPost((old) => {
@@ -46,8 +46,7 @@ export default function Detail() {
   const postFixHandler = () => {
     dispatch(__fixPost({
       postId: findPost.postId,
-      title: modifiedPost.title,
-      content: modifiedPost.content
+      modifiedPost
     }))
     setEdit((pre) => !pre);
   }
@@ -59,10 +58,10 @@ export default function Detail() {
 
   useEffect(()=>{
     // dispatch(__getPosts());
-    setFindPost(post.find((item) => {
+    setFindPost(posts?.find((item) => {
       return item?.postId === parseInt(params.id);
     }))
-  },[JSON.stringify(post)]);
+  },[JSON.stringify(posts)]);
 
   return (
     <div>
@@ -81,41 +80,57 @@ export default function Detail() {
         </Container>
       :
         <Container>
-          <div style={{marginTop: "3rem"}}>
-            <input type="text" name='title' value={modifiedPost.title} onChange={changeInputHandler}/>
-          </div>
-          <div>
-            <input type="textarea" name='content' value={modifiedPost.content} onChange={changeInputHandler}/>
-          </div>
-        </Container>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{marginTop:"3rem"}}><h3>제목</h3></Form.Label>
+            <Form.Control value={modifiedPost.title} name="title" type="text" onChange={changeInputHandler} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label style={{marginTop:"1rem"}}><h3>내용</h3></Form.Label>
+            <Form.Control value={modifiedPost.content} name="content" as="textarea" rows={20} onChange={changeInputHandler} />
+          </Form.Group>
+        </Form>
+      </Container>
       }
       
       {/* {findPost.map((item)=> item.id === findPost.id)
       
       } */}
       <Container style={{ alignItems: "end" }}>
-        <Btn>
-          <Button
-            variant="outline-dark"
-            onClick={() => {
-              navi("/");
-            }}
-          >
-            이전
-          </Button>{" "}
+        <div>
           {!edit ? 
-            <Button variant="secondary" onClick={()=>{setEdit((pre) => !pre);}}>
-              수정
-            </Button>
+            <Btn>
+              <Button
+                variant="outline-dark"
+                onClick={() => {
+                  navi("/");
+                }}
+              >
+                이전
+              </Button>
+              <Button variant="secondary" onClick={()=>{setEdit((pre) => !pre);}}>
+                수정
+              </Button>
+              <Button variant="danger" onClick={postDeleteHandler}>
+                삭제
+              </Button>
+            </Btn>
           :
-            <Button variant="secondary" onClick={postFixHandler}>
-              완료
-            </Button>
+            <Btn>
+              <Button
+                variant="outline-dark"
+                onClick={() => {
+                  navi("/");
+                }}
+              >
+                이전
+              </Button>
+              <Button variant="dark" onClick={postFixHandler}>
+                완료
+              </Button>
+            </Btn>
           }
-          <Button variant="danger" onClick={postDeleteHandler}>
-            삭제
-          </Button>
-        </Btn>
+        </div>
       </Container>
       <hr />
       <Container
