@@ -5,12 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import HeaderNav from '../components/HeaderNav'
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-<<<<<<< HEAD
-import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
-=======
->>>>>>> 2d852ba60a861e3dd71e8ce7e4d04bbaa6f49a6a
 import { __getPosts, __deletePost, __fixPost } from '../redux/modules/postModule';
 import Comment from '../components/Comment';
 
@@ -27,14 +23,6 @@ export default function Detail() {
     content: ""
   })
 
-<<<<<<< HEAD
-  const [comment, setComment] =useState({
-    contents: ""
-  });
-
-=======
-  // console.log(modifiedPost);
->>>>>>> 2d852ba60a861e3dd71e8ce7e4d04bbaa6f49a6a
   const changeInputHandler = (event) => {
     const { value, name } = event.target;
     setModifiedPost((old) => {
