@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import Form from 'react-bootstrap/Form';
 
-import { __getPosts, __deletePost, __fixPost } from '../redux/modules/postModule';
+import { __getPosts, __getPost, __deletePost, __fixPost } from '../redux/modules/postModule';
 import Comment from '../components/Comment';
 
 export default function Detail() {
@@ -15,12 +15,22 @@ export default function Detail() {
   const params = useParams();
   // const navi = useNavigate();
   const dispatch = useDispatch();
-  const {posts} = useSelector((state)=>state.posts);
+  const posts = useSelector((state)=>state.posts.posts);
   const [edit, setEdit] = useState(false);
-  const [findPost, setFindPost] = useState("");
-  const [modifiedPost, setModifiedPost] = useState({
+  const [postData, setPostData] = useState({
+    postId: 0,
+    userId: "",
     title: "",
-    content: ""
+    content: "",
+    comment: ""
+  })
+  
+  console.log("posts", posts)
+  console.log("postData", postData);
+
+  const [modifiedPost, setModifiedPost] = useState({
+    title: postData.title,
+    content: postData.content
   })
 
   const changeInputHandler = (event) => {
@@ -32,27 +42,28 @@ export default function Detail() {
 
   const postDeleteHandler = () => {
     if(window.confirm("정말 삭제하시겠습니까?")) {
-      dispatch(__deletePost(findPost.postId))
+      dispatch(__deletePost(postData.postId))
       navi("/")
     } else {
       return;
     }
   }
 
-  const postFixHandler = () => {
+  const fixPostHandler = () => {
     dispatch(__fixPost({
-      postId: findPost.postId,
+      postId: postData.postId,
       modifiedPost
     }))
+    dispatch(__getPost(postData.postId))
     setEdit((pre) => !pre);
   }
 
   useEffect(()=>{
-    // dispatch(__getPosts());
-    setFindPost(posts?.find((item) => {
+    const find = posts?.find((item) => {
       return item?.postId === parseInt(params.id);
-    }))
-  },[JSON.stringify(posts)]);
+    })
+    setPostData(find);
+  },[posts]);
 
   return (
     <div>
@@ -60,25 +71,25 @@ export default function Detail() {
       {!edit ? 
         <Container>
           <div style={{marginTop: "3rem"}}>
-            <h3>{findPost?.title}</h3>
+            <h3>{postData?.title}</h3>
           </div>
           <hr />
           <div style={{marginTop: "1rem"}}>
-            <span style={{marginRight: "1rem"}}>글 번호 : {findPost?.postId}</span>
-            <span>작성자 : {findPost?.userId}</span>
+            <span style={{marginRight: "1rem"}}>글 번호 : {postData?.postId}</span>
+            <span>작성자 : {postData?.userId}</span>
           </div>
-          <P>{findPost?.content}</P>
+          <P>{postData?.content}</P>
         </Container>
       :
         <Container>
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label style={{marginTop:"3rem"}}><h3>제목</h3></Form.Label>
-            <Form.Control value={modifiedPost.title} name="title" type="text" onChange={changeInputHandler} />
+            <Form.Control value={modifiedPost.title} name="title" type="text" placeholder={postData.title} onChange={changeInputHandler} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label style={{marginTop:"1rem"}}><h3>내용</h3></Form.Label>
-            <Form.Control value={modifiedPost.content} name="content" as="textarea" rows={20} onChange={changeInputHandler} />
+            <Form.Control value={modifiedPost.content} name="content" as="textarea" rows={20} placeholder={postData.content} onChange={changeInputHandler} />
           </Form.Group>
         </Form>
       </Container>
@@ -116,7 +127,7 @@ export default function Detail() {
               >
                 이전
               </Button>
-              <Button variant="dark" onClick={postFixHandler}>
+              <Button variant="dark" onClick={fixPostHandler}>
                 완료
               </Button>
             </Btn>

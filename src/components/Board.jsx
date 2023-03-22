@@ -6,6 +6,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
+import Table from 'react-bootstrap/Table';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { __getPosts } from '../redux/modules/postModule';
@@ -18,7 +19,7 @@ function Board() {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const numPages = Math.ceil(33/limit);
+    const numPages = Math.ceil(28/limit);
     const offset = (page - 1) * limit;
     
     useEffect(()=>{
@@ -27,40 +28,39 @@ function Board() {
 
   return (
     <Container>
-        <Container style={{
-            marginTop: "3rem"}}>
-            <Stack direction="horizontal" gap={2}>
-                <h2>게시판</h2>
-                <Button variant="dark" className='ms-auto' onClick={()=>{navi("/chitchat/post")}}>글쓰기</Button>
-            </Stack>
-        </Container>
-        <Container style={{
-            marginTop: "1rem",
-            paddingTop: "1rem",
-            paddingBottom: "1rem",
-            border: "1px solid black",
-            borderRadius: "10px"
-        }}>
-            <Row>
-              <Col>글 번호</Col>
-              <Col xs={8} style={{ textAlign: "center" }}>글 제목</Col>
-              <Col style={{ textAlign: "end" }}>아이디</Col>
-            </Row>
-        </Container>
-        <Container style={{
-            marginTop: "1rem"}}>
-            {/* 서버 통신용 코드 */}
-            {posts.map((item) =>
-                <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
-                  <Col style={{ paddingLeft: "1.4rem", color: "#767676" }}>{item?.postId}</Col>
-                  <Col>{item?.title}</Col>
-                  <Col style={{ textAlign: "end", color: "#767676" }}>{item?.userId}</Col>
-                </Rows>
-            )}
-            {/* .slice(offset, offset + limit) */}
-        </Container>
-        <hr />
+      <Container style={{
+          marginTop: "3rem"}}>
+          <Stack direction="horizontal" gap={2}>
+              <h2>게시판</h2>
+              <Button variant="dark" className='ms-auto' onClick={()=>{navi("/chitchat/post")}}>글쓰기</Button>
+          </Stack>
+      </Container>
+      <Container style={{
+          marginTop: "1rem",
+          paddingTop: "1rem",
+          paddingBottom: "1rem",
+          border: "1px solid black",
+          borderRadius: "10px"
+      }}>
+          <Row>
+            <Col>글 번호</Col>
+            <Col xs={8} style={{ textAlign: "center" }}>글 제목</Col>
+            <Col style={{ textAlign: "end" }}>아이디</Col>
+          </Row>
+      </Container>
+      <Container style={{marginTop: "1rem"}}>
+          {posts.map((item) =>
+              <Rows style={{ marginBottom: "0.5rem" }} onClick={()=>{navi(`/chitchat/detail/${item.postId}`)}}>
+                <Col style={{color: "#767676"}}>{item?.postId}</Col>
+                <Col xs={9}>{item?.title}</Col>
+                <Col style={{color: "#767676", textAlign: "end"}}>{item?.userId}</Col>
+              </Rows>
+          )}
+          {/* .slice(offset, offset + limit) */}
+      </Container>
+      <hr />
         <Container style={{ marginTop: "2rem" }}>
+          <PnBtn>
           <Pagination>
             <Pagination.First />
             <Pagination.Prev onClick={() => setPage(page - 1)} disabled={page === 1}/>
@@ -79,8 +79,10 @@ function Board() {
             <Pagination.Next onClick={() => setPage(page + 1)} disabled={page === numPages}/>
             <Pagination.Last />
           </Pagination>
+          </PnBtn>
         </Container>
-    </Container>
+      </Container>
+    
   )
 }
 
@@ -89,10 +91,16 @@ const Rows = styled.div`
   grid-template-columns: 2fr 8fr 2fr;
   padding: 1rem 0rem 1rem 0rem;
   &:hover {
+    border-radius: 5px;
     background: #efefef;
     transition: 0.1s;
     opacity: 90%;
   }
+`
+
+const PnBtn = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 export default Board

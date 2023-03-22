@@ -13,6 +13,19 @@ export const __getPosts = createAsyncThunk(
     }
 );
 
+export const __getPost = createAsyncThunk(
+    "getPost",
+    async (payload, thunkAPI) => {
+        try {
+            const result = await api.get(`/chitchat/posts/36`);
+            console.log(result);
+            return thunkAPI.fulfillWithValue(result.data);
+        } catch(error) {
+            return thunkAPI.rejectWithValue("error");
+        }
+    }
+);
+
 export const __sendPost = createAsyncThunk(
     "sendPost",
     async (payload, thunkAPI) => {
@@ -43,7 +56,6 @@ export const __fixPost = createAsyncThunk(
         console.log("payload", modifiedPost);
         try {
             const result = await api.patch(`/chitchat/posts/${postId}`, modifiedPost);
-            console.log("result", result);
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -60,7 +72,7 @@ export const postsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        //__getPosts
+        //__getPosts(전체 게시글 조회)
         [__getPosts.pending]: (state) => {
             state.isLoading = true;
             state.isError = false;
@@ -71,6 +83,22 @@ export const postsSlice = createSlice({
             state.posts = payload;
         },
         [__getPosts.rejected]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.error = payload;
+        },
+
+        //__getPost(선택 게시글 조회)
+        [__getPost.pending]: (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        },
+        [__getPost.fulfilled]: (state, {payload}) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.posts = payload;
+        },
+        [__getPost.rejected]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = true;
             state.error = payload;
