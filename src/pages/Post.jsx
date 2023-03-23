@@ -29,8 +29,6 @@ function Post() {
     content: "",
   });
 
-  console.log(post)
-
   const changeInputHandler = (event) => {
     const { value, name } = event.target;
     setPost((old) => {

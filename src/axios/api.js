@@ -1,23 +1,3 @@
-// import axios from "axios";
-// import { getCookie } from "./cookies";
-
-// const token = getCookie("token");
-
-// export const api = axios.create({
-// baseURL: `${process.env.REACT_APP_SERVER_URL}`,
-//     headers: {
-//     "Access-Control-Allow-Origin": "*",
-//     },
-// });
-
-// export const api_token = axios.create({
-// baseURL: `${process.env.REACT_APP_SERVER_URL}`,
-//     headers: {
-//     "Access-Control-Allow-Origin": "*",
-//     Authorization: token,
-//     },
-// });
-
 import axios from 'axios';
 import { cookies } from '../shared/cookie';
 
@@ -34,6 +14,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
     function (config) {
+        const token = cookies.get("token") ? cookies.get("token") : cookies.get("token")
         config.headers["authorization"] = `${token}`;
         // config.headers["authorization"] = `Berer ${token}`;
         console.log('인터셉터 요청 성공!')

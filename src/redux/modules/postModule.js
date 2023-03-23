@@ -30,8 +30,10 @@ export const __sendPost = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const result = await api.post('/chitchat/posts', payload);
+            alert("작성완료!");
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
+            alert("세션이 만료되었습니다.");
             return thunkAPI.rejectWithValue("error");
         }
     }
@@ -112,7 +114,7 @@ export const postsSlice = createSlice({
         [__sendPost.fulfilled]: (state, {payload}) => {
             state.isLoading = false;
             state.isError = false;
-            state.posts = [...state.post, payload];
+            state.posts = [...state.posts, payload];
         },
         [__sendPost.rejected]: (state, {payload}) => {
             state.isLoading = false;
