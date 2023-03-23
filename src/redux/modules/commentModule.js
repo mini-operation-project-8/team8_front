@@ -32,8 +32,10 @@ export const __deleteComment = createAsyncThunk(
         // console.log(commentId);
         try {
             const result = await api.delete(`/chitchat/${postId}/comments/${commentId}`);
+            alert('삭제하시겠습니까?')
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
+            alert('작성자만 삭제할 수 있습니다');
             return thunkAPI.rejectWithValue("error");
         }
     }
