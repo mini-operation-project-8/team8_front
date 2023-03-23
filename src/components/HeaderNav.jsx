@@ -12,7 +12,7 @@ function HeaderNav() {
 
   const logoutHandler = () => {
     alert("로그아웃 성공!");
-    cookies.remove("token");
+    cookies.remove("token", {path:"/"});
     navi("/");
   }
 

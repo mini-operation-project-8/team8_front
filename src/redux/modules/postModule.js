@@ -30,7 +30,6 @@ export const __sendPost = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const result = await api.post('/chitchat/posts', payload);
-            alert("게시글 작성 완료!");
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
