@@ -28,9 +28,9 @@ function LoginPage() {
     try { 
       const result = await api.post("/chitchat/auth/login", user)
       // console.log(result);
+      alert("Welcome to Chit Chat");
       cookies.set("token", result.headers.authorization, {path : "/"});
       navigate ("/")
-      alert("Welcome to Chit Chat")
     } catch (e) {
       alert("아이디와 비밀번호를 확인하세요")
     }

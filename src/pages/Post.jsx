@@ -41,7 +41,6 @@ function Post() {
   const submitButtonHandler = (event) => {
     event.preventDefault();
     dispatch(__sendPost(post));
-    alert("게시글 작성 완료!");
     navi("/");
   }
 

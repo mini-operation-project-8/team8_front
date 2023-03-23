@@ -30,6 +30,7 @@ export const __sendPost = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const result = await api.post('/chitchat/posts', payload);
+            alert("게시글 작성 완료!");
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue("error");
@@ -42,8 +43,10 @@ export const __deletePost = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const result = await api.delete(`/chitchat/posts/${payload}`);
+            alert("삭제되었습니다!")
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
+            alert("작성자만 삭제할 수 있습니다");
             return thunkAPI.rejectWithValue("error");
         }
     }

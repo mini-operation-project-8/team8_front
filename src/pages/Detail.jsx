@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 
 import { __getPost, __deletePost, __fixPost } from '../redux/modules/postModule';
 import Comment from '../components/Comment';
+import { cookies } from '../shared/cookie';
 
 export default function Detail() {
   const navi = useNavigate();
@@ -17,7 +18,7 @@ export default function Detail() {
   const dispatch = useDispatch();
   const posts = useSelector((state)=>state.posts.posts);
   const [edit, setEdit] = useState(false);
-
+  const token = cookies.get("token")
   const [modifiedPost, setModifiedPost] = useState({
     title: posts.title,
     content: posts.content
@@ -97,12 +98,16 @@ export default function Detail() {
               >
                 이전
               </Button>
-              <Button variant="secondary" onClick={()=>{setEdit((pre) => !pre);}}>
-                수정
-              </Button>
-              <Button variant="danger" onClick={postDeleteHandler}>
-                삭제
-              </Button>
+              {token ?
+              <>
+                <Button variant="secondary" onClick={()=>{setEdit((pre) => !pre);}}>
+                  수정
+                </Button>
+                <Button variant="danger" onClick={postDeleteHandler}>
+                  삭제
+                </Button>
+              </>
+              : null}
             </Btn>
           :
             <Btn>
