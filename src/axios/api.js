@@ -29,6 +29,23 @@ api.interceptors.request.use(
       },
 )
 
+api.interceptors.request.use(
+    function (config) {
+        const token = cookies.get("token") ? cookies.get("token") : cookies.get("token")
+        config.headers["authorization"] = `${token}`;
+        // config.headers["authorization"] = `Berer ${token}`;
+        console.log('인터셉터 요청 성공!')
+        // alert(config.headers.authorization)
+        return config
+      },
+    
+      // 오류 요청을 보내기 전 수행되는 함수
+      function (error) {
+        console.log('인터셉터 요청 오류')
+        return Promise.reject(error)
+      },
+)
+
 api.interceptors.response.use(
     function(response){
         console.log("리스폰스 요청 성공!");
