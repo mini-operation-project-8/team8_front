@@ -9,9 +9,10 @@ import { Container } from 'react-bootstrap'
 
 function Comment() {
   const { id } = useParams();
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState([]);
   const dispatch = useDispatch();
   const {comments} = useSelector((state) => state.comments);
+  // const [modify, setModify] =useState({})
   // console.log(comments)
 
   const addCommentHandler = async () => {
@@ -21,12 +22,42 @@ function Comment() {
       })
     );
     setComment("");
-    dispatch(__getComments({ postId: id }));
-  };
-
-  useEffect(() =>{
     dispatch(__getComments({ postId: id }))
-  }, [comments])
+    .then(response => {
+      if (response.data && response.data.comments) {
+        setComment(response.data.comments);
+      }
+    }).catch(error => {
+      console.error(error);
+    });
+  };
+  
+  const deleteCommentHandler = async (commentId) => {
+    await dispatch(__deleteComment({
+        postId: id,
+        commentId: commentId,
+      })
+    );
+    dispatch(__getComments({ postId: id }))
+    .then(response => {
+      if (response.data && response.data.comments) {
+        setComment(response.data.comments);
+      }
+    }).catch(error => {
+      console.error(error);
+    });
+  };
+  
+  useEffect(() => {
+    dispatch(__getComments({ postId: id }))
+    .then(response => {
+      if (response.data && response.data.comments) {
+        setComment(response.data.comments);
+      }
+    }).catch(error => {
+      console.error(error);
+    });
+  }, [id, dispatch]);
 
   return (
     <>
@@ -56,15 +87,19 @@ function Comment() {
             return (
               <Card key={el.id} style={{ marginTop: "15px" }}>
                 <Card.Body>{el.userId}&nbsp;&nbsp;&nbsp;{el.contents}</Card.Body>
-                <Button variant="danger" onClick={()=>{
-                  dispatch(
+                {/* <Button variant="danger" onClick={()=>{
+                  if(window.confirm('삭제하시겠습니까?')){
+                    dispatch(
                   __deleteComment({
                     postId: id,
-                    commentId : el.commentId
-                  }))
-                  }}>
-                  삭제
-                </Button>
+                    commentId : el.commentId}))
+                  } else{
+                    return;
+                  }
+                }}>
+                삭제</Button> */}
+                <Button variant="danger" onClick={()=> {deleteCommentHandler(el.commentId)}}>
+                삭제</Button>
               </Card>
             );
           })}

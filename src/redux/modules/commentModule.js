@@ -29,7 +29,7 @@ export const __sendComment = createAsyncThunk(
 export const __deleteComment = createAsyncThunk(
     "deleteComment",
     async ({postId, commentId}, thunkAPI) => {
-        console.log(commentId);
+        // console.log(commentId);
         try {
             const result = await api.delete(`/chitchat/${postId}/comments/${commentId}`);
             return thunkAPI.fulfillWithValue(result.data);
@@ -38,6 +38,18 @@ export const __deleteComment = createAsyncThunk(
         }
     }
 );
+
+// const __updateComment = createAsyncThunk(
+//     "updateComment",
+//     async({postId, commentId, modify}, thunkAPI) => {
+//         try {
+//             const result = await api.patch(`/chitchat/${postId}/comments/${commentId}`,modify);
+//             return thunkAPI.fulfillWithValue(result.data);
+//         } catch(error) {
+//             return thunkAPI.rejectWithValue(error);
+//         }
+//     }
+// );
 
 const initialState = {
     comments: [],
@@ -103,6 +115,21 @@ export const commentsSlice = createSlice({
             state.isError = true;
             state.error = payload;
         },
+        // updateComment
+        // [__updateComment.pending]: (state) => {
+        //     state.isLoading = true;
+        //     state.isError = false;
+        // },
+        // [__updateComment.fulfilled]: (state, {payload}) => {
+        //     state.isLoading = false;
+        //     state.isError = false;
+        //     state.comments = payload
+        // },
+        // [__updateComment.rejected]: (state, {payload}) => {
+        //     state.isLoading = false;
+        //     state.isError = true;
+        //     state.error = payload;
+        // },
     }
 })
 
